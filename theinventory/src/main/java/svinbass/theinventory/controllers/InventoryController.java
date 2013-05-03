@@ -18,7 +18,6 @@ public class InventoryController {
 	 @RequestMapping(value = "/showContent", method = RequestMethod.POST)
 	    public ModelAndView addContact(@ModelAttribute("groceries")
 	    			Groceries groceries, BindingResult result) {
-	         System.out.println("Hi");
 		 ModelAndView view = new ModelAndView("showDetails");
 	      view.addObject("groceries", groceries);
 	      return view;

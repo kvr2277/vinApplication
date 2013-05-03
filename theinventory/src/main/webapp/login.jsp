@@ -1,5 +1,5 @@
 <%@page import="svinbass.theinventory.model.Login"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 <html lang="en">
 <script type="text/javascript"
@@ -11,8 +11,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login Page</title>`
 </head>
-<body>
-	<div id="msgDiv" style="font-size: 150%; color: #850F0F">
+<body onload='document.f.j_username.focus();'>
+	<font color="blue" size="5"> <marquee>Please provide
+				login credentials</marquee></font>
+ 
+	<c:if test="${not empty error}">
+		<div class="errorblock">
+			Your login attempt was not successful, try again.<br /> Caused :
+			${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+		</div>
+	</c:if>
+	<%-- <div id="msgDiv" style="font-size: 150%; color: #850F0F">
 		<%
 			if (login != null
 					&& (login.getMsg() != null || login.getMsg() != "")) {
@@ -22,20 +31,16 @@
 		<%
 			}
 		%>
-	</div>
+	</div> --%>
 
-	<form id="form" action="login" method="post">
-		<font color="blue" size="5"> <marquee>Please provide
-				login credentials</marquee></font>
-		<table width="100%">
-
+	<form name='f' action="<c:url value='j_spring_security_check' />" method='POST'>
+ <table>
 			<tr align="center">
-				<td>User Name:<input type="text" name="userName" /><br></td>
+				<td width="150">User Name:</td><td><input type='text' name='j_username' value=''><br></td>
 			</tr>
 
 			<tr align="center">
-				<td>Password:<input type="password" name="passWord"><br>
-					<br> <br></td>
+				<td>Password:</td><td><input type='password' name='j_password' /><br></td>
 			</tr>
 
 			<tr align="center">

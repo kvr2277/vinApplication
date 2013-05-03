@@ -1,24 +1,32 @@
 package svinbass.theinventory.controllers;
 
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import svinbass.theinventory.model.Login;
-
+@Controller
 public class LoginController {
-	
-	 @RequestMapping(value = "/login", method = RequestMethod.POST)
-	    public String addContact(@ModelAttribute("login")
-	    			Login login, BindingResult result) {
-		if("admin".equals(login.getUserName()) && "admin".equals(login.getPassWord())) { 
-			return "redirect:/bookinventory";
-		}else{
-			login.setMsg("Invalid Login");
-			return "forward:/login.jsp";
-		}
-    }
-	
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(ModelMap model) {
+
+		return "login";
+
+	}
+
+	@RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
+	public String loginerror(ModelMap model) {
+		model.addAttribute("error", "true");
+		return "forward:/login.jsp";
+
+	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(ModelMap model) {
+
+		return "forward:/login.jsp";
+
+	}
 
 }

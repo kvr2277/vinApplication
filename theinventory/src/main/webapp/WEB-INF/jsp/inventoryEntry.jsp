@@ -1,4 +1,6 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <html>
 <head>
 <link rel="stylesheet"
@@ -11,7 +13,9 @@
 <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 <!-- <script type="text/javascript"
 	src="http://dev.jquery.com/view/trunk/plugins/validate/jquery.validate.js"></script> 
- --> 	<script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script> 
+ -->
+<script type="text/javascript"
+	src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script>
 <style type="text/css">
 * {
 	font-family: Verdana;
@@ -56,11 +60,13 @@ em {
 						"Nagaland", "Orissa", "Punjab", "Rajasthan", "Sikkim",
 						"Tamil Nadu", "Tripura", "Uttaranchal", "UttarPradesh",
 						"WestBengal" ];
-				$("#datepicker").datepicker();
+				$("#datepicker").datepicker({
+					dateFormat : 'dd-mm-yy'
+				});
 				$("#stateId").autocomplete({
 					source : stateData
 				});
-				 $("#commentForm").validate(); 
+				$("#commentForm").validate();
 				/*$("#commentForm").validate({
 					rules : {
 						stateId : {
@@ -92,13 +98,19 @@ em {
 <title>Inventory Entry Page</title>
 </head>
 <body>
-	<h2>Enter Inventory</h2>
+	<div align="left">
+		<h2>Enter Inventory</h2>
+	</div>
+	<div align="center">
+		<a href="<c:url value="/j_spring_security_logout" />"> Logout</a>
+	</div>
 	<form:form method="post" id="commentForm" action="showContent">
 
 		<table>
 			<tr>
-				<td><form:label path="state">State</form:label></td>
-				<td><input id="stateId" name="state" class="required"/></td>
+				<td width="150"><form:label path="state">State</form:label></td>
+				<td><input id="stateId" name="state" class="required"
+					value="Andhra Pradesh" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="location">Location</form:label></td>
@@ -106,23 +118,24 @@ em {
 			</tr>
 			<tr>
 				<td><form:label path="vendor">Vendor Name</form:label></td>
-				<td><form:input path="vendor" id="vendor" class="required"/></td>
+				<td><form:input path="vendor" id="vendor" class="required" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="purchDate">Purchase Date</form:label></td>
-				<td><input type="text" name="purchDate" id="datepicker" class="required"/></td>
+				<td><input type="text" name="purchDate" id="datepicker"
+					class="required" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="itemName">Item Name</form:label></td>
-				<td><form:input path="itemName" id="itemName" class="required"/></td>
+				<td><form:input path="itemName" id="itemName" class="required" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="itemQty">Item Quantity</form:label></td>
-				<td><form:input path="itemQty" class="required"/></td>
+				<td><form:input path="itemQty" class="required" /></td>
 			</tr>
 			<tr>
-				<td><form:label path="itemPrice">Price Per Unit</form:label></td>
-				<td><form:input path="itemPrice" class="required"/></td>
+				<td><form:label path="itemPrice">Price Per Unit (Rs.)</form:label></td>
+				<td><form:input path="itemPrice" class="required" /></td>
 			</tr>
 			<tr>
 				<td colspan="2"><input type="submit" value="Submit Entry" /></td>

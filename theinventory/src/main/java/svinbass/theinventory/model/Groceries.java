@@ -1,30 +1,23 @@
 package svinbass.theinventory.model;
 
-import java.util.Date;
 
 public class Groceries {
 	
-	/*private Item item;
-	private int units;*/
 	private String state;
 	private String location;
 	private String vendor;	
-	private Date purchDate;
+	private String purchDate;
 	private String itemName;
 	private String itemQty;
 	private String itemPrice;
+	private String totalPrice;
+		
 	
 	public String getVendor() {
 		return vendor;
 	}
 	public void setVendor(String vendor) {
 		this.vendor = vendor;
-	}
-	public Date getPurchDate() {
-		return purchDate;
-	}
-	public void setPurchDate(Date purchDate) {
-		this.purchDate = purchDate;
 	}
 	public String getItemName() {
 		return itemName;
@@ -55,6 +48,18 @@ public class Groceries {
 	}
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	public String getTotalPrice() {
+		return String.valueOf(Integer.parseInt(this.itemQty)*Float.parseFloat(this.itemPrice));
+	}
+	public void setTotalPrice(String totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	public String getPurchDate() {
+		return purchDate;
+	}
+	public void setPurchDate(String purchDate) {
+		this.purchDate = purchDate;
 	}
 	
 		
