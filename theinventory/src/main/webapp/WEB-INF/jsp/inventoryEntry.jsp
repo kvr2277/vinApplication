@@ -15,7 +15,7 @@
 <script type="text/javascript">
 	$(document).ready(
 			function() {
-				var data = [ "Andhra Pradesh", "Arunachal Pradesh", "Assam",
+				var stateData = [ "Andhra Pradesh", "Arunachal Pradesh", "Assam",
 						"Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana",
 						"Himachal Pradesh", "Jammu & Kashmir", "Jharkhand",
 						"Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra",
@@ -24,6 +24,9 @@
 						"Tamil Nadu", "Tripura", "Uttaranchal", "UttarPradesh",
 						"WestBengal" ];
 				$("#datepicker").datepicker(); 
+				$( "#stateId" ).autocomplete({
+				      source: stateData
+				    });
 				/*$("#form").validate({
 					rules : {
 						state : {
@@ -61,7 +64,7 @@
 		<table>
 			<tr>
 				<td><form:label path="state">State</form:label></td>
-				<td><input id="state" name="state" /></td>
+				<td><input id="stateId" name="state" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="location">Location</form:label></td>
