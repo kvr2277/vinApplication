@@ -50,6 +50,10 @@ em {
 </style>
 
 <script type="text/javascript">
+function capitaliseFirstLetter(string)
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 	$(document).ready(
 			function() {
 				var stateData = [ "Andhra Pradesh", "Arunachal Pradesh",
@@ -66,6 +70,9 @@ em {
 				$("#stateId").autocomplete({
 					source : stateData
 				});
+				/* $("#location").text(function(i, text) {
+				    return text.substr(0,1).toUpperCase() + text.substr(1);
+				}); */
 				$("#commentForm").validate();
 				/*$("#commentForm").validate({
 					rules : {
