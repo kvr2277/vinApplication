@@ -1,0 +1,11 @@
+> Automatically change the first character of city "hyderabad" to "Hyderabad"
+> Add Vendor Management module with
+	> Search/Modify a vendor
+		> Authorized places to supply
+	> Register a new vendor
+> Modify the invenory management page to include
+	> VendorId input and search/confirm/modify features
+> Adding dynamic table features
+	> Calculate/Submit/Cancel features
+> Add radios to confirm mode of payment
+	> cheque/online/cash (guess cash not required)		

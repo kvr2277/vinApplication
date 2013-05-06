@@ -1,0 +1,72 @@
+<table border="1" id="table1">
+		<tr>
+			<th col="product" class="testclass">Product</th>
+			<th col="price" class="testclass" summary="max">Price</th>
+			<th col="quantity" class="testclass" summary="avg">Quantity</th>
+			<th col="discount" class="testclass">Discount</th>
+			<th col="subtotal" class="testclass"
+				formula="price*quantity*(1 - 0.10 * discount)" summary="sum">Subtotal</th>
+		</tr>
+		<tr>
+			<td><select name="det[0][product]">
+					<option value="1">Computer</option>
+					<option value="2">Iphone</option>
+					<option value="3" selected="selected">Mouse</option>
+					<option value="4">Keyboard</option>
+					<option value="5">Pantalla</option>
+					<option value="6">USB Memmory</option>
+					<option value="7">CD Burnner</option>
+					<option value="8">Hard Disk</option>
+					<option value="9">Motherboard</option>
+					<option value="10">Case</option>
+			</select></td>
+			<td><input name="det[0][price]" type="text" class="num"
+				value="10" /></td>
+			<td><input name="det[0][quantity]" type="text" class="num"
+				value="1" /></td>
+			<td><input name="det[0][discount]" type="checkbox"
+				checked="checked" /></td>
+			<td class="num"></td>
+		</tr>
+		<tr>
+			<td><select name="det[1][product]">
+					<option value="1">Computer</option>
+					<option value="2">Iphone</option>
+					<option value="3">Mouse</option>
+					<option value="4">Keyboard</option>
+					<option value="5">Pantalla</option>
+					<option value="6">USB Memmory</option>
+					<option value="7">CD Burnner</option>
+					<option value="8">Hard Disk</option>
+					<option value="9">Motherboard</option>
+					<option value="10">Case</option>
+			</select></td>
+			<td><input name="det[1][price]" type="text" class="num"
+				value="2.33" /></td>
+			<td><input name="det[1][quantity]" type="text" class="num"
+				value="3" /></td>
+			<td><input name="det[1][discount]" type="checkbox" /></td>
+			<td class="num"></td>
+		</tr>
+		<tr>
+			<td><select name="det[2][product]">
+					<option value="1">Computer</option>
+					<option value="2">Iphone</option>
+					<option value="3">Mouse</option>
+					<option value="4">Keyboard</option>
+					<option value="5">Pantalla</option>
+					<option value="6">USB Memmory</option>
+					<option value="7">CD Burnner</option>
+					<option value="8">Hard Disk</option>
+					<option value="9">Motherboard</option>
+					<option value="10">Case</option>
+			</select></td>
+			<td><input name="det[2][price]" type="text" class="num"
+				value="5.5" /></td>
+			<td><input name="det[2][quantity]" type="text" class="num"
+				value="2" /></td>
+			<td><input name="det[2][discount]" type="checkbox" /></td>
+			<td class="num"></td>
+		</tr>
+
+	</table>
