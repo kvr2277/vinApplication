@@ -7,7 +7,6 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 (function($) {
-
     $.fn.extend({
         grider: function(config) {
             return this.each(function() {
@@ -88,6 +87,7 @@
         * @param DOM t Table
         */
         function setGrider(t) {
+        	//alert(1)
             $(table).find('tr:first').addClass('noedit');
             // Allow to count rows
             if(config['countRow']) {
@@ -138,13 +138,15 @@
                     addRow();
                 });
             }
-
+            //alert(22)
             // Allow to delete rows
             if(config['delRow']) {
+            	//alert(2)
                 $(table).find('tr:not(.noedit)').each(function(index,elem){
                     $(elem).append(config['delRowText']);
                 });
-                $(table).find('a.delete').live("click", function(){
+                $(table).find('a.delete').click(function(){
+                	//alert(11)
                     delRow(this);
                     return true;
                 });
@@ -298,6 +300,8 @@
             }else{
                 res = cells.length;
             }
+            //alert("Sum "+sum)
+            document.getElementById('totalPrice').value = precise_round(sum,2);
             res = res.toFixed(config.decimals);
             $(table).find('tr.summary td:nth-child(' + pos +')').html(res);
         }
@@ -505,6 +509,8 @@
          * Allows to delete a row
          */
         function delRow(elem) {
+        	//alert(3)
+        	//alert(elem)
             if($(table).find('tr:not(.noedit)').length > 1 ) {
                 if(config.rails) {
                     var el = $(elem).parents('tr').eq(0).prev("input:hidden[name$='[id]']");
@@ -538,6 +544,10 @@
                 var ind = index + 1;
                 $(elem).html(ind);
             });
+        }
+        
+        function precise_round(num,decimals){
+        	return Math.round(num*Math.pow(10,decimals))/Math.pow(10,decimals);
         }
 
         return {
@@ -576,7 +586,7 @@ Grider = {
         addRowText: '<caption><a href="#">Add Row</a></caption>',
         delRowText: '<td><a href="#" class="delete">delete</a></td>',
         countRow: false,
-        countRowText: 'Nº',
+        countRowText: 'No',
         countRowCol: 0,
         countRowAdd: false,
         addedRow: false,

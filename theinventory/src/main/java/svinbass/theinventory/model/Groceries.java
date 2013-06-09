@@ -1,5 +1,7 @@
 package svinbass.theinventory.model;
 
+import java.util.List;
+
 
 public class Groceries {
 	
@@ -7,10 +9,8 @@ public class Groceries {
 	private String location;
 	private String vendor;	
 	private String purchDate;
-	private String itemName;
-	private String itemQty;
-	private String itemPrice;
 	private String totalPrice;
+	private List<Item> itemList;
 		
 	
 	public String getVendor() {
@@ -18,24 +18,6 @@ public class Groceries {
 	}
 	public void setVendor(String vendor) {
 		this.vendor = vendor;
-	}
-	public String getItemName() {
-		return itemName;
-	}
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
-	public String getItemQty() {
-		return itemQty;
-	}
-	public void setItemQty(String itemQty) {
-		this.itemQty = itemQty;
-	}
-	public String getItemPrice() {
-		return itemPrice;
-	}
-	public void setItemPrice(String itemPrice) {
-		this.itemPrice = itemPrice;
 	}
 	public String getState() {
 		return state;
@@ -50,7 +32,7 @@ public class Groceries {
 		this.location = location;
 	}
 	public String getTotalPrice() {
-		return String.valueOf(Integer.parseInt(this.itemQty)*Float.parseFloat(this.itemPrice));
+		return totalPrice;
 	}
 	public void setTotalPrice(String totalPrice) {
 		this.totalPrice = totalPrice;
@@ -60,6 +42,12 @@ public class Groceries {
 	}
 	public void setPurchDate(String purchDate) {
 		this.purchDate = purchDate;
+	}
+	public List<Item> getItemList() {
+		return itemList;
+	}
+	public void setItemList(List<Item> itemList) {
+		this.itemList = itemList;
 	}
 	
 		
