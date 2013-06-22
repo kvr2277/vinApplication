@@ -10,18 +10,10 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/jquery.autocomplete.css"
 	type="text/css" />
-<script type="text/javascript"
-	src="http://code.jquery.com/jquery-latest.js"></script>
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/resources/js/grider.js"></script>
-<script type="text/javascript"
-	src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script>
-<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.js"></script> -->
-<!-- <script type="text/javascript"
-	src="http://dev.jquery.com/view/trunk/plugins/validate/jquery.validate.js"></script> 
- -->
-
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/grider.js"></script>
+<script type="text/javascript" src="http://jquery.bassistance.de/validate/jquery.validate.js"></script>
+<script type="text/javascript"src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 <style type="text/css">
 * {
 	font-family: Verdana;
@@ -100,44 +92,41 @@ h2 {
 				$("#datepicker").datepicker({
 					dateFormat : 'dd-mm-yy'
 				});
-				$("#stateId").autocomplete({
+				$("#stateID").autocomplete({
 					source : stateData
+				});
+				$("#commentForm").validate({
+					rules: {
+						//these are names and not ids :)
+						state: "required",
+						location: "required",
+						vendor: "required",
+						purchDate: "required"
+					} ,
+					messages: {
+						state: "Please enter state name",
+						location: "Please enter a location",
+						vendor: "Please enter vendor name",
+						purchDate: "Please enter purchase date"
+						
+					} 
 				});
 				$('#table1').grider({
 					countRow : true,
 					countRowAdd : true
 				});
-				$("#commentForm").validate();
-				/*$("#commentForm").validate({
-					rules : {
-						stateId : {
-							required : true
-						},
-						location : {
-							required : true
-						},
-						vendor : {
-							required : true
-						},
-						itemName : {
-							required : true
-						}
-					} ,
-					messages : {
-						stateId : "Please enter a state."
-						location : "Please enter a location."
-						vendor : "Please enter a vendor."
-						itemName : "Please enter a item name."
-					} 
+
+				/*$('#itemName').blur(function() {
+					alert('Change method is trigerred');
 				});*/
+				
+				
 			});
 </script>
 <%
 	Groceries grocery = (Groceries) request.getAttribute("groceries");
 	List<Item> itemList = grocery.getItemList();
 %>
-
-
 </head>
 <title>Inventory Entry Page</title>
 </head>
@@ -153,20 +142,19 @@ h2 {
 		<table>
 			<tr>
 				<td width="150"><form:label path="state">State</form:label></td>
-				<td><input id="stateId" name="state" class="required" /></td>
+				<td><input id="stateID" name="state" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="location">Location</form:label></td>
-				<td><form:input path="location" class="required" /></td>
+				<td><form:input path="location" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="vendor">Vendor Name</form:label></td>
-				<td><form:input path="vendor" id="vendor" class="required" /></td>
+				<td><form:input path="vendor" id="vendor" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="purchDate">Purchase Date</form:label></td>
-				<td><input type="text" name="purchDate" id="datepicker"
-					class="required" /></td>
+				<td><input type="text" name="purchDate" id="datepicker" /></td>
 			</tr>
 		</table>
 		<form:hidden path="totalPrice"></form:hidden>
@@ -183,7 +171,7 @@ h2 {
 					summary="sum">Subtotal</th>
 			</tr>
 			<tr>
-				<td><select name="det[0][product]">
+				<td><select id="itemName" name="det[0][product]">
 						<%
 							for (Item item : itemList) {
 									String itemName = item.getName();

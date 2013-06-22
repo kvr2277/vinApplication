@@ -10,3 +10,13 @@ high1> Adding dynamic table features
 high2> Add radios to confirm mode of payment
 	> cheque/online/cash (guess cash not required)	
 high1> Validation on inventory page
+
+
+---
+
+> When you select Banana, theres should be type dropdown and it should have the values dozens/kgs/units/gela in it
+When you select milk it should have units litres/cans
+When you select Rice - kgs/quintals/bags etc
+
+Ideally there should be one list for type dropdown and based on our selection of item, some values in the list have to become invisible
+
