@@ -170,8 +170,9 @@ h2 {
 				<th col="subtotal" formula="price*quantity*(1 - 0.10 * discount)"
 					summary="sum">Subtotal</th>
 			</tr>
+			<% for(int var=0; var<4; var++){ %>
 			<tr>
-				<td><select id="itemName" name="det[0][product]">
+				<td><select id="itemName" name="det[<%=var%>][product]">
 						<%
 							for (Item item : itemList) {
 									String itemName = item.getName();
@@ -181,50 +182,15 @@ h2 {
 							}
 						%>
 				</select></td>
-				<td><input name="det[0][quantity]" type="text" class="num"
+				<td><input name="det[<%=var%>][quantity]" type="text" class="num"
 					value="1" /></td>
-				<td><input name="det[0][price]" type="text" class="num"
+				<td><input name="det[<%=var%>][price]" type="text" class="num"
 					value="10" /></td>
-				<td><input name="det[0][discount]" type="checkbox"
+				<td><input name="det[<%=var%>][discount]" type="checkbox"
 					checked="checked" /></td>
 				<td class="num"></td>
 			</tr>
-			<tr>
-				<td><select name="det[1][product]">
-						<%
-							for (Item item : itemList) {
-									String itemName = item.getName();
-						%>
-						<option value="<%=itemName%>"><%=itemName%></option>
-						<%
-							}
-						%>
-				</select></td>
-				<td><input name="det[0][quantity]" type="text" class="num"
-					value="1" /></td>
-				<td><input name="det[0][price]" type="text" class="num"
-					value="10" /></td>
-				<td><input name="det[1][discount]" type="checkbox" /></td>
-				<td class="num"></td>
-			</tr>
-			<tr>
-				<td><select name="det[2][product]">
-						<%
-							for (Item item : itemList) {
-									String itemName = item.getName();
-						%>
-						<option value="<%=itemName%>"><%=itemName%></option>
-						<%
-							}
-						%>
-				</select></td>
-				<td><input name="det[0][quantity]" type="text" class="num"
-					value="1" /></td>
-				<td><input name="det[0][price]" type="text" class="num"
-					value="10" /></td>
-				<td><input name="det[2][discount]" type="checkbox" /></td>
-				<td class="num"></td>
-			</tr>
+			<% } %>		
 		</table>
 
 		<input type="submit" value="Submit Entry" />
