@@ -5,15 +5,12 @@
 <%@page import="svinbass.theinventory.model.Groceries"%>
 <html>
 <head>
-<link rel="stylesheet"
-	href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/jquery.autocomplete.css"
-	type="text/css" />
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/grider.js"></script>
-<script type="text/javascript" src="http://jquery.bassistance.de/validate/jquery.validate.js"></script>
-<script type="text/javascript"src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<link rel="stylesheet"	href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet"	href="<%=request.getContextPath()%>/resources/css/jquery.autocomplete.css"	type="text/css" />
+<script type="text/javascript"	src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript"	src="<%=request.getContextPath()%>/resources/js/grider.js"></script>
+<script type="text/javascript"	src="http://jquery.bassistance.de/validate/jquery.validate.js"></script>
+<script type="text/javascript"	src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 <style type="text/css">
 * {
 	font-family: Verdana;
@@ -96,20 +93,20 @@ h2 {
 					source : stateData
 				});
 				$("#commentForm").validate({
-					rules: {
+					rules : {
 						//these are names and not ids :)
-						state: "required",
-						location: "required",
-						vendor: "required",
-						purchDate: "required"
-					} ,
-					messages: {
-						state: "Please enter state name",
-						location: "Please enter a location",
-						vendor: "Please enter vendor name",
-						purchDate: "Please enter purchase date"
-						
-					} 
+						state : "required",
+						location : "required",
+						vendor : "required",
+						purchDate : "required"
+					},
+					messages : {
+						state : "Please enter state name",
+						location : "Please enter a location",
+						vendor : "Please enter vendor name",
+						purchDate : "Please enter purchase date"
+
+					}
 				});
 				$('#table1').grider({
 					countRow : true,
@@ -119,14 +116,10 @@ h2 {
 				/*$('#itemName').blur(function() {
 					alert('Change method is trigerred');
 				});*/
-				
-				
+
 			});
 </script>
-<%
-	Groceries grocery = (Groceries) request.getAttribute("groceries");
-	List<Item> itemList = grocery.getItemList();
-%>
+
 </head>
 <title>Inventory Entry Page</title>
 </head>
@@ -170,27 +163,20 @@ h2 {
 				<th col="subtotal" formula="price*quantity*(1 - 0.10 * discount)"
 					summary="sum">Subtotal</th>
 			</tr>
-			<% for(int var=0; var<4; var++){ %>
-			<tr>
-				<td><select id="itemName" name="det[<%=var%>][product]">
-						<%
-							for (Item item : itemList) {
-									String itemName = item.getName();
-						%>
-						<option value="<%=itemName%>"><%=itemName%></option>
-						<%
-							}
-						%>
-				</select></td>
-				<td><input name="det[<%=var%>][quantity]" type="text" class="num"
-					value="1" /></td>
-				<td><input name="det[<%=var%>][price]" type="text" class="num"
-					value="10" /></td>
-				<td><input name="det[<%=var%>][discount]" type="checkbox"
-					checked="checked" /></td>
-				<td class="num"></td>
-			</tr>
-			<% } %>		
+			<c:forEach var="prod" varStatus="grocStatus" items="${groceries.groceryList}" begin="0">
+				<tr>
+					<td><form:select path="groceryList[${grocStatus.index}].name" id="name${grocStatus.index}">
+							<form:options items="${groceries.itemList}" />
+						</form:select></td>
+					<td><form:input path="groceryList[${grocStatus.index}].quantity" id="quantity${grocStatus.index}"
+							value="1" /></td>
+					<td><form:input path="groceryList[${grocStatus.index}].price" id="price${grocStatus.index}"
+							value="10" /></td>
+					<td><form:checkbox
+							path="groceryList[${grocStatus.index}].discount" id="discount${grocStatus.index}" checked="checked" /></td>
+					<td class="num"></td>
+				</tr>
+			</c:forEach>
 		</table>
 
 		<input type="submit" value="Submit Entry" />

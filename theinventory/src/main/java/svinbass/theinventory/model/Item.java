@@ -4,6 +4,12 @@ public class Item {
 	private String name;
 	private double price;
 	private String type;
+	private int quantity;
+	private boolean discount;
+
+	public Item() {
+
+	}
 
 	public Item(String name, double price, String type) {
 		super();
@@ -11,7 +17,7 @@ public class Item {
 		this.price = price;
 		this.type = type;
 	}
-	
+
 	public Item(String name, String type) {
 		super();
 		this.name = name;
@@ -40,6 +46,22 @@ public class Item {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public boolean isDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(boolean discount) {
+		this.discount = discount;
 	}
 
 }

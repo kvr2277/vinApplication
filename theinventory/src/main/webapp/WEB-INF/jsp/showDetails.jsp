@@ -5,14 +5,13 @@
 <html>
 <body>
 	<div align="left">
-		<h1>Entered groceries</h1>
+		<h1>Entered Groceries</h1>
 	</div>
 	<div align="center">
 		<a href="<c:url value="/j_spring_security_logout" />"> Logout</a>
 	</div>
 	<%
 		Groceries grocery = (Groceries) request.getAttribute("groceries");
-		List<Item> itemList = grocery.getItemList();
 	%>
 	<div>
 		<table>
@@ -32,14 +31,12 @@
 				<td>Purchase Date</td>
 				<td><%=grocery.getPurchDate()%></td>
 			</tr>
-			<%-- <tr>
-				<td>Item Name</td>
-				<td><%=grocery.getItemName()%></td>
-			</tr> 
-			<tr>
-				<td>Item Quantity</td>
-				<td><%=grocery.getItemQty()%></td>
-			</tr> --%>
+			<c:forEach var="grocery" items="${groceries.groceryList}">
+				<tr>
+					<td><c:out value="${grocery.name}" /></td>
+					<td><c:out value="${grocery.price}" /></td>
+				<tr>
+			</c:forEach>
 			<tr>
 				<td>Total Value (Rs.)</td>
 				<td><%=grocery.getTotalPrice()%></td>

@@ -1,6 +1,11 @@
 package svinbass.theinventory.model;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections15.FactoryUtils;
+import org.apache.commons.collections15.ListUtils;
 
 
 public class Groceries {
@@ -10,7 +15,9 @@ public class Groceries {
 	private String vendor;	
 	private String purchDate;
 	private String totalPrice;
-	private List<Item> itemList;
+	private Map<String,String> itemList;
+	//private AutoPopulatingList<Item> groceryList = new AutoPopulatingList(Item.class);
+	private List<Item> groceryList = ListUtils.lazyList(new ArrayList<Item>(), FactoryUtils.instantiateFactory(Item.class));  
 		
 	
 	public String getVendor() {
@@ -42,13 +49,20 @@ public class Groceries {
 	}
 	public void setPurchDate(String purchDate) {
 		this.purchDate = purchDate;
+	}	
+	public List<Item> getGroceryList() {
+		return groceryList;
 	}
-	public List<Item> getItemList() {
+	public void setGroceryList(List<Item> groceryList) {
+		this.groceryList = groceryList;
+	}
+	public Map<String, String> getItemList() {
 		return itemList;
 	}
-	public void setItemList(List<Item> itemList) {
+	public void setItemList(Map<String, String> itemList) {
 		this.itemList = itemList;
 	}
+	
 	
 		
 
