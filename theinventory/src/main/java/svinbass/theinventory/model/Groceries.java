@@ -12,7 +12,9 @@ public class Groceries {
 	
 	private String state;
 	private String location;
-	private String vendor;	
+	private String vendor;
+	private String vendorID;
+	private String vendorContact;
 	private String purchDate;
 	private String totalPrice;
 	private Map<String,String> itemList;
@@ -25,6 +27,18 @@ public class Groceries {
 	}
 	public void setVendor(String vendor) {
 		this.vendor = vendor;
+	}
+	public String getVendorID() {
+		return vendorID;
+	}
+	public void setVendorID(String vendorID) {
+		this.vendorID = vendorID;
+	}
+	public String getVendorContact() {
+		return vendorContact;
+	}
+	public void setVendorContact(String vendorContact) {
+		this.vendorContact = vendorContact;
 	}
 	public String getState() {
 		return state;

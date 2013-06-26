@@ -28,6 +28,14 @@
 				<td><%=grocery.getVendor()%></td>
 			</tr>
 			<tr>
+				<td>Vendor ID</td>
+				<td><%=grocery.getVendorID()%></td>
+			</tr>
+			<tr>
+				<td>Vendor Contact</td>
+				<td><%=grocery.getVendorContact()%></td>
+			</tr>
+			<tr>
 				<td>Purchase Date</td>
 				<td><%=grocery.getPurchDate()%></td>
 			</tr>

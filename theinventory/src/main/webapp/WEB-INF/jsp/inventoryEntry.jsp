@@ -98,12 +98,14 @@ h2 {
 						state : "required",
 						location : "required",
 						vendor : "required",
+						vendorID : "required",
 						purchDate : "required"
 					},
 					messages : {
 						state : "Please enter state name",
 						location : "Please enter a location",
 						vendor : "Please enter vendor name",
+						vendorID : "Please enter vendor ID",
 						purchDate : "Please enter purchase date"
 
 					}
@@ -144,6 +146,10 @@ h2 {
 			<tr>
 				<td><form:label path="vendor">Vendor Name</form:label></td>
 				<td><form:input path="vendor" id="vendor" /></td>
+			</tr>
+			<tr>
+				<td><form:label path="vendorID">Vendor ID</form:label></td>
+				<td><form:input path="vendorID" id="vendorID" /></td>
 			</tr>
 			<tr>
 				<td><form:label path="purchDate">Purchase Date</form:label></td>

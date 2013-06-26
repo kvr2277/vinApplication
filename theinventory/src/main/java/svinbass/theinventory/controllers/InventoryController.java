@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import svinbass.theinventory.helper.ItemFillerHelper;
+import svinbass.theinventory.helper.WebServiceHelper;
+import svinbass.theinventory.model.Business;
 import svinbass.theinventory.model.Groceries;
 import svinbass.theinventory.model.Item;
 
@@ -23,6 +25,8 @@ import svinbass.theinventory.model.Item;
 @RequestMapping(value = { "/bookinventory", "/showContent" })
 public class InventoryController {
 
+	WebServiceHelper wsHelper;
+	
 	@RequestMapping("/bookinventory")
 	public ModelAndView showContacts() {
 
@@ -48,6 +52,7 @@ public class InventoryController {
 			@ModelAttribute("groceries") Groceries groceries,
 			BindingResult result) {
 
+		contactBuilder(groceries);
 		ModelAndView view = new ModelAndView("showDetails");
 		view.addObject("groceries", groceries);
 		return view;
@@ -56,5 +61,19 @@ public class InventoryController {
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.setAutoGrowNestedPaths(false);
+	}
+	
+	private void contactBuilder(Groceries groceries){
+		String contact = null;
+		Business bus = new Business();
+		bus.setName(groceries.getVendor());
+		bus.setIdNumber(groceries.getVendorID());
+		
+		wsHelper = new WebServiceHelper();
+		contact = wsHelper.getContactNumber(bus);
+		
+		if(contact != null){
+			groceries.setVendorContact(contact);
+		}
 	}
 }

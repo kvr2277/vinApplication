@@ -63,6 +63,8 @@
 			<artifactId>collections-generic</artifactId>
 			<version>4.01</version>
 		</dependency>
+		
+		<!--  Not required I guess, added for http://java.sun.com/jsp/jstl/core uri in JSP error -->
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
@@ -73,7 +75,13 @@
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-client</artifactId>
-			<version>1.9</version>
+			<version>1.8</version>
+			<exclusions>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>resteasy-jaxrs</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 
 		<!-- For Jackson (JSON Utility) -->
@@ -87,6 +95,12 @@
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-json</artifactId>
 			<version>1.9</version>
+			 <exclusions>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-core</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 	</dependencies>
 	<build>
