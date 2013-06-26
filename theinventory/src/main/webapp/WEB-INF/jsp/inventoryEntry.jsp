@@ -5,13 +5,22 @@
 <%@page import="svinbass.theinventory.model.Groceries"%>
 <html>
 <head>
-<link rel="stylesheet"	href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet"	href="<%=request.getContextPath()%>/resources/css/jquery.autocomplete.css"	type="text/css" />
-<link rel="stylesheet"	href="<%=request.getContextPath()%>/resources/css/inventory.css" type="text/css" />
-<script type="text/javascript"	src="http://code.jquery.com/jquery-latest.js"></script>
-<script type="text/javascript"	src="<%=request.getContextPath()%>/resources/js/grider.js"></script>
-<script type="text/javascript"	src="http://jquery.bassistance.de/validate/jquery.validate.js"></script>
-<script type="text/javascript"	src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/jquery.autocomplete.css"
+	type="text/css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/inventory.css"
+	type="text/css" />
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/resources/js/grider.js"></script>
+<script type="text/javascript"
+	src="http://jquery.bassistance.de/validate/jquery.validate.js"></script>
+<script type="text/javascript"
+	src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 
 
 <script type="text/javascript">
@@ -32,6 +41,7 @@
 				$("#datepicker").datepicker({
 					dateFormat : 'dd-mm-yy'
 				});
+				$("#result").hide();
 				$("#stateID").autocomplete({
 					source : stateData
 				});
@@ -61,35 +71,34 @@
 				/*$('#itemName').blur(function() {
 					alert('Change method is trigerred');
 				});*/
-				
-				
-			
+
 			});
-			
-			/* attach a submit handler to the form */
-		  function doAjaxPost() {
 
-			   var vendorName = $('#vendor').val();
-			   var vendorId = $('#vendorID').val();
-			   
-			  /* get some values from elements on the page: */
-			//   var values = $(this).serialize();
+	/* attach a submit handler to the form */
+	function doAjaxPost() {
 
-			  /* Send the data using post and put the results in a div */
-			    $.ajax({
-			      url: "getContact",
-			      type: "post",
-			      data: "vendor=" + vendorName + "&vendorID=" + vendorId,
-			      success: function(response){
-			    	  	//alert("success");
-			           $("#result").html(response);
-			      },
-			      error:function(err, response){
-			          alert("failure1");
-			          $("#result").html('there is error while submit'+err.responseText);
-			      }   
-			    }); 
-			};
+		var vendorName = $('#vendor').val();
+		var vendorId = $('#vendorID').val();
+
+		/* get some values from elements on the page: */
+		//   var values = $(this).serialize();
+		/* Send the data using post and put the results in a div */
+		$.ajax({
+			url : "getContact",
+			type : "post",
+			data : "vendor=" + vendorName + "&vendorID=" + vendorId,
+			success : function(response) {
+				document.getElementById('vendorContact').value = response;
+				$("#vendorContact").text(response);
+				$("#result").show();
+			},
+			error : function(err, response) {
+				alert("failure1");
+				$("#result").html(
+						'there is error while submit' + err.responseText);
+			}
+		});
+	};
 </script>
 
 </head>
@@ -102,7 +111,7 @@
 	<div align="center">
 		<a href="<c:url value="/j_spring_security_logout" />"> Logout</a>
 	</div>
-	
+
 	<form:form modelAttribute="groceries" method="post" id="commentForm"
 		action="showContent">
 		<table>
@@ -121,19 +130,26 @@
 			<tr>
 				<td><form:label path="vendorID">Vendor ID</form:label></td>
 				<td><form:input path="vendorID" id="vendorID" /></td>
-				<td><input type="button" value="Get Contact" onclick="doAjaxPost()"><br/></td>
+				<td><input type="button" value="Get Contact"
+					onclick="doAjaxPost()"><br /></td>
 			</tr>
 			<tr>
 				<td><form:label path="purchDate">Purchase Date</form:label></td>
 				<td><input type="text" name="purchDate" id="datepicker" /></td>
 			</tr>
 		</table>
-		
-		<div id="result"></div>
-		
-		
-		
+
+		<div id="result">
+			<table>
+				<tr>
+					<td width="150">Vendor Contact</td>
+					<td><input id="vendorContact" name="vendorContact"/></td>
+				</tr>
+			</table>
+		</div>
+
 		<form:hidden path="totalPrice"></form:hidden>
+		<form:hidden path="vendorContact"></form:hidden>
 
 		<table border="1" id="table1">
 			<tr>
@@ -144,25 +160,29 @@
 				<th col="subtotal" formula="price*quantity*(1 - 0.10 * discount)"
 					summary="sum">Subtotal</th>
 			</tr>
-			<c:forEach var="prod" varStatus="grocStatus" items="${groceries.groceryList}" begin="0">
+			<c:forEach var="prod" varStatus="grocStatus"
+				items="${groceries.groceryList}" begin="0">
 				<tr>
-					<td><form:select path="groceryList[${grocStatus.index}].name" id="name${grocStatus.index}">
+					<td><form:select path="groceryList[${grocStatus.index}].name"
+							id="name${grocStatus.index}">
 							<form:options items="${groceries.itemList}" />
 						</form:select></td>
-					<td><form:input path="groceryList[${grocStatus.index}].quantity" id="quantity${grocStatus.index}"
-							value="1" /></td>
-					<td><form:input path="groceryList[${grocStatus.index}].price" id="price${grocStatus.index}"
-							value="10" /></td>
+					<td><form:input
+							path="groceryList[${grocStatus.index}].quantity"
+							id="quantity${grocStatus.index}" value="1" /></td>
+					<td><form:input path="groceryList[${grocStatus.index}].price"
+							id="price${grocStatus.index}" value="10" /></td>
 					<td><form:checkbox
-							path="groceryList[${grocStatus.index}].discount" id="discount${grocStatus.index}" checked="checked" /></td>
+							path="groceryList[${grocStatus.index}].discount"
+							id="discount${grocStatus.index}" checked="checked" /></td>
 					<td class="num"></td>
 				</tr>
 			</c:forEach>
 		</table>
-	
+
 		<input type="submit" value="Submit Entry" />
 	</form:form>
-	
+
 
 </body>
 </html>

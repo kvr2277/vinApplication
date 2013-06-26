@@ -51,11 +51,8 @@ public class InventoryController {
 	}
 
 	@RequestMapping(value = "/showContent", method = RequestMethod.POST)
-	public ModelAndView addContact(
-			@ModelAttribute("groceries") Groceries groceries,
-			BindingResult result) {
-
-		contactBuilder(groceries);
+	public ModelAndView addContact(@ModelAttribute("groceries") Groceries groceries,BindingResult result) {
+		
 		ModelAndView view = new ModelAndView("showDetails");
 		view.addObject("groceries", groceries);
 		return view;
@@ -65,7 +62,23 @@ public class InventoryController {
 	public void initBinder(WebDataBinder binder) {
 		binder.setAutoGrowNestedPaths(false);
 	}
+	
 
+	@RequestMapping(value = "/getContact", method = RequestMethod.POST)
+	public @ResponseBody
+		String showVendorContact(@ModelAttribute("groceries") Groceries groceries, BindingResult result) {
+		String str = "No Value Received";
+		
+		if (!result.hasErrors()) {
+			contactBuilder(groceries);
+			str = groceries.getVendorContact();
+		} else {
+			str = "An error has occured while binding";
+		}
+
+		return str;
+	}
+	
 	private void contactBuilder(Groceries groceries) {
 		String contact = null;
 		Business bus = new Business();
@@ -78,21 +91,5 @@ public class InventoryController {
 		if (contact != null) {
 			groceries.setVendorContact(contact);
 		}
-	}
-
-	@RequestMapping(value = "/getContact", method = RequestMethod.POST)
-	public @ResponseBody
-	String showVendorContact(@ModelAttribute("groceries") Groceries groceries,
-			BindingResult result) {
-		String str = "No Value Received";
-		
-		if (!result.hasErrors()) {
-			contactBuilder(groceries);
-			str = groceries.getVendorContact();
-		} else {
-			str = "An error has occured while binding";
-		}
-
-		return str;
 	}
 }
