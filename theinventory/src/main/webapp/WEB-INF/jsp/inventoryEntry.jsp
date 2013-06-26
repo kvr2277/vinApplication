@@ -7,69 +7,12 @@
 <head>
 <link rel="stylesheet"	href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
 <link rel="stylesheet"	href="<%=request.getContextPath()%>/resources/css/jquery.autocomplete.css"	type="text/css" />
+<link rel="stylesheet"	href="<%=request.getContextPath()%>/resources/css/inventory.css" type="text/css" />
 <script type="text/javascript"	src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript"	src="<%=request.getContextPath()%>/resources/js/grider.js"></script>
 <script type="text/javascript"	src="http://jquery.bassistance.de/validate/jquery.validate.js"></script>
 <script type="text/javascript"	src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-<style type="text/css">
-* {
-	font-family: Verdana;
-	font-size: 96%;
-}
 
-label {
-	width: 10em;
-	float: left;
-}
-
-label.error {
-	float: none;
-	color: red;
-	padding-left: .5em;
-	vertical-align: top;
-}
-
-p {
-	clear: both;
-}
-
-.submit {
-	margin-left: 12em;
-}
-
-em {
-	font-weight: bold;
-	padding-right: 1em;
-	vertical-align: top;
-}
-
-table {
-	border-collapse: collapse
-}
-
-.num {
-	text-align: right
-}
-
-input {
-	width: 8em;
-}
-
-td {
-	padding: 2px;
-}
-
-.summary {
-	text-align: right;
-	font-weight: bold;
-}
-
-h2 {
-	font-size: 1.3em;
-	font-weight: bold;
-	background: #3B84BF;
-}
-</style>
 
 <script type="text/javascript">
 	function capitaliseFirstLetter(string) {
