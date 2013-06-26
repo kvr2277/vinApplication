@@ -1,9 +1,11 @@
 package svinbass.theinventory.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.AutoPopulatingList;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import svinbass.theinventory.helper.ItemFillerHelper;
@@ -22,11 +25,11 @@ import svinbass.theinventory.model.Groceries;
 import svinbass.theinventory.model.Item;
 
 @Controller
-@RequestMapping(value = { "/bookinventory", "/showContent" })
+@RequestMapping(value = { "/bookinventory", "/showContent", "/getContact" })
 public class InventoryController {
 
 	WebServiceHelper wsHelper;
-	
+
 	@RequestMapping("/bookinventory")
 	public ModelAndView showContacts() {
 
@@ -62,18 +65,34 @@ public class InventoryController {
 	public void initBinder(WebDataBinder binder) {
 		binder.setAutoGrowNestedPaths(false);
 	}
-	
-	private void contactBuilder(Groceries groceries){
+
+	private void contactBuilder(Groceries groceries) {
 		String contact = null;
 		Business bus = new Business();
 		bus.setName(groceries.getVendor());
 		bus.setIdNumber(groceries.getVendorID());
-		
+
 		wsHelper = new WebServiceHelper();
 		contact = wsHelper.getContactNumber(bus);
-		
-		if(contact != null){
+
+		if (contact != null) {
 			groceries.setVendorContact(contact);
 		}
+	}
+
+	@RequestMapping(value = "/getContact", method = RequestMethod.POST)
+	public @ResponseBody
+	String showVendorContact(@ModelAttribute("groceries") Groceries groceries,
+			BindingResult result) {
+		String str = "No Value Received";
+		
+		if (!result.hasErrors()) {
+			contactBuilder(groceries);
+			str = groceries.getVendorContact();
+		} else {
+			str = "An error has occured while binding";
+		}
+
+		return str;
 	}
 }

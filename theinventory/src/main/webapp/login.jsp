@@ -21,17 +21,6 @@
 			${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
 		</div>
 	</c:if>
-	<%-- <div id="msgDiv" style="font-size: 150%; color: #850F0F">
-		<%
-			if (login != null
-					&& (login.getMsg() != null || login.getMsg() != "")) {
-		%>
-		<br>
-		<%=login.getMsg()%></br>
-		<%
-			}
-		%>
-	</div> --%>
 
 	<form name='f' action="<c:url value='j_spring_security_check' />" method='POST'>
  <table>

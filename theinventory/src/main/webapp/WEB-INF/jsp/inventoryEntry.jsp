@@ -118,8 +118,35 @@ h2 {
 				/*$('#itemName').blur(function() {
 					alert('Change method is trigerred');
 				});*/
-
+				
+				
+			
 			});
+			
+			/* attach a submit handler to the form */
+		  function doAjaxPost() {
+
+			   var vendorName = $('#vendor').val();
+			   var vendorId = $('#vendorID').val();
+			   
+			  /* get some values from elements on the page: */
+			//   var values = $(this).serialize();
+
+			  /* Send the data using post and put the results in a div */
+			    $.ajax({
+			      url: "getContact",
+			      type: "post",
+			      data: "vendor=" + vendorName + "&vendorID=" + vendorId,
+			      success: function(response){
+			    	  	//alert("success");
+			           $("#result").html(response);
+			      },
+			      error:function(err, response){
+			          alert("failure1");
+			          $("#result").html('there is error while submit'+err.responseText);
+			      }   
+			    }); 
+			};
 </script>
 
 </head>
@@ -132,6 +159,7 @@ h2 {
 	<div align="center">
 		<a href="<c:url value="/j_spring_security_logout" />"> Logout</a>
 	</div>
+	
 	<form:form modelAttribute="groceries" method="post" id="commentForm"
 		action="showContent">
 		<table>
@@ -150,15 +178,19 @@ h2 {
 			<tr>
 				<td><form:label path="vendorID">Vendor ID</form:label></td>
 				<td><form:input path="vendorID" id="vendorID" /></td>
+				<td><input type="button" value="Get Contact" onclick="doAjaxPost()"><br/></td>
 			</tr>
 			<tr>
 				<td><form:label path="purchDate">Purchase Date</form:label></td>
 				<td><input type="text" name="purchDate" id="datepicker" /></td>
 			</tr>
 		</table>
+		
+		<div id="result"></div>
+		
+		
+		
 		<form:hidden path="totalPrice"></form:hidden>
-
-
 
 		<table border="1" id="table1">
 			<tr>
@@ -184,8 +216,10 @@ h2 {
 				</tr>
 			</c:forEach>
 		</table>
-
+	
 		<input type="submit" value="Submit Entry" />
 	</form:form>
+	
+
 </body>
 </html>
