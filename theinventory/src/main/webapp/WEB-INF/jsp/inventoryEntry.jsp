@@ -95,10 +95,33 @@
 			error : function(err, response) {
 				alert("failure1");
 				$("#result").html(
-						'there is error while submit' + err.responseText);
+						'there is error while submitting ajax'
+								+ err.responseText);
 			}
 		});
 	};
+
+	//using FormData() object
+	function uploadFormData() {
+		$('#result').html('');
+
+		var oMyForm = new FormData();
+		oMyForm.append("file", file2.files[0]);
+
+		$.ajax({
+			url : 'upload',
+			data : oMyForm,
+			dataType : 'text',
+			processData : false,
+			contentType : false,
+			type : 'POST',
+			success : function(response) {
+				alert(response);
+				$('#result').html(response);
+
+			}
+		});
+	}
 </script>
 
 </head>
@@ -112,6 +135,8 @@
 		<a href="<c:url value="/j_spring_security_logout" />"> Logout</a>
 	</div>
 
+	<%-- <form:form modelAttribute="groceries" method="post" id="commentForm"
+		action="testFileUpload"> --%>
 	<form:form modelAttribute="groceries" method="post" id="commentForm"
 		action="showContent">
 		<table>
@@ -143,7 +168,7 @@
 			<table>
 				<tr>
 					<td width="150">Vendor Contact</td>
-					<td><input id="vendorContact" name="vendorContact"/></td>
+					<td><input id="vendorContact" name="vendorContact" /></td>
 				</tr>
 			</table>
 		</div>
@@ -183,6 +208,14 @@
 		<input type="submit" value="Submit Entry" />
 	</form:form>
 
+	<!-- Form 2 -->
+	<form id="form2" method="post" action="upload" enctype="multipart/form-data">
+		<input name="file2" id="file2" type="file" /><br />
+	</form>
+
+	<button value="Submit" onclick="uploadFormData()">Upload</button>
+
+	<div id="result"></div>
 
 </body>
 </html>
