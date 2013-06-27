@@ -132,7 +132,8 @@ public class InventoryController {
 				e.printStackTrace();
 			}
 			System.out.println(mpf.getOriginalFilename() + " uploaded!");
-			reslt = mpf.getOriginalFilename() + " uploaded!";
+			reslt = mpf.getOriginalFilename();
+			System.out.println("result "+reslt);
 		}
 
 		return reslt;

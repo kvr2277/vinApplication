@@ -24,6 +24,8 @@
 
 
 <script type="text/javascript">
+
+var xyz = 'sparrow.jpg';
 	function capitaliseFirstLetter(string) {
 		return string.charAt(0).toUpperOil() + string.slice(1);
 	}
@@ -45,6 +47,7 @@
 				$("#stateID").autocomplete({
 					source : stateData
 				});
+				$('#imgContent').attr('src','resources/images/'+xyz);
 				$("#commentForm").validate({
 					rules : {
 						//these are names and not ids :)
@@ -71,7 +74,7 @@
 				/*$('#itemName').blur(function() {
 					alert('Change method is trigerred');
 				});*/
-
+				
 			});
 
 	/* attach a submit handler to the form */
@@ -103,8 +106,7 @@
 
 	//using FormData() object
 	function uploadFormData() {
-		$('#result').html('');
-
+		$('#imgContent').html('');
 		var oMyForm = new FormData();
 		oMyForm.append("file", file2.files[0]);
 
@@ -116,9 +118,7 @@
 			contentType : false,
 			type : 'POST',
 			success : function(response) {
-				alert(response);
-				$('#result').html(response);
-
+				$('#imgContent').attr('src','resources/images/'+response);
 			}
 		});
 	}
@@ -214,8 +214,8 @@
 	</form>
 
 	<button value="Submit" onclick="uploadFormData()">Upload</button>
-
-	<div id="result"></div>
+	<img src="#" id="imgContent" />
+	<div id="imgResult"></div>
 
 </body>
 </html>
