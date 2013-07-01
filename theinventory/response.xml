@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hospital>
+	<doctors>
+		<doctor>
+			<qualifications>
+				<qual>mbbs</qual>
+				<qual>frcs</qual>
+			</qualifications>
+			<experience>
+				<hospital>
+					<hospName>Yashoda</hospName>
+					<specialization noofyears="3">Dermatalogy</specialization>
+				</hospital>
+			</experience>
+			<availability>
+				<dates>
+					<day date="1Jan 2014">
+						<available>
+							<isDocAvailable>Yes</isDocAvailable>
+							<comments>Have Surgeries that day</comments>
+						</available>
+						<hours>
+							<hour val="4pm">
+								<slotsAvaialable>3</slotsAvaialable>
+								<consultationFee>400</consultationFee>
+								<otherInfo></otherInfo>
+							</hour>
+							<hour val="5pm">
+								<slotsAvaialable>2</slotsAvaialable>
+								<consultationFee>500</consultationFee>
+								<otherInfo></otherInfo>
+							</hour>
+							<hour val="6pm">
+								<!-- Val is too high don't allow 8 on screen -->
+								<slotsAvaialable>8</slotsAvaialable>
+								<consultationFee>500</consultationFee>
+								<otherInfo></otherInfo>
+							</hour>
+						</hours>
+					</day>
+					<day date="2Jan 2014">
+						<available>
+							<isDocAvailable>Yes</isDocAvailable>
+							<comments>Might not be available in latter part of the day
+							</comments>
+						</available>
+						<hours>
+							<hour val="4pm">
+								<slotsAvaialable>3</slotsAvaialable>
+								<consultationFee>400</consultationFee>
+								<otherInfo></otherInfo>
+							</hour>
+							<hour val="5pm">
+								<slotsAvaialable>2</slotsAvaialable>
+								<consultationFee>500</consultationFee>
+								<otherInfo></otherInfo>
+							</hour>
+							<hour val="6pm">
+								<slotsAvaialable>3</slotsAvaialable>
+								<consultationFee>500</consultationFee>
+								<otherInfo></otherInfo>
+							</hour>
+						</hours>
+					</day>
+					<day date="3Jan 2014">
+						<available>
+							<isDocAvailable>No</isDocAvailable>
+							<comments>Leave</comments>
+						</available>
+					</day>
+					<day date="4Jan 2014">
+						<available>
+							<isDocAvailable>No</isDocAvailable>
+							<comments>Holiday</comments>
+						</available>
+					</day>
+				</dates>
+			</availability>
+		</doctor>
+	</doctors>
+</hospital>
+			

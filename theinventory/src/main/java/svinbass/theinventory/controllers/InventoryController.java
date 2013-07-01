@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -28,7 +27,7 @@ import svinbass.theinventory.model.Item;
 
 @Controller
 @RequestMapping(value = { "/bookinventory", "/showContent", "/getContact",
-		"/testFileUpload", "/upload" })
+		"/testFileUpload", "/upload", "/uploadToWS" })
 public class InventoryController {
 
 	WebServiceHelper wsHelper;
@@ -91,7 +90,7 @@ public class InventoryController {
 		bus.setIdNumber(groceries.getVendorID());
 
 		wsHelper = new WebServiceHelper();
-		contact = wsHelper.getContactNumber(bus);
+		contact = wsHelper.contactNumberClient(bus);
 
 		if (contact != null) {
 			groceries.setVendorContact(contact);
@@ -107,7 +106,7 @@ public class InventoryController {
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public @ResponseBody
-	String showVendorContact(MultipartHttpServletRequest request,
+	String uploadOnSameServer(MultipartHttpServletRequest request,
 			HttpServletResponse response) {
 		
 		String reslt = "File Upload Failed";
@@ -119,9 +118,12 @@ public class InventoryController {
 
 			MultipartFile mpf = ((MultipartHttpServletRequest) request)
 					.getFile(itr.next());
+			
+			
 			File tmpFile = new File(System.getProperty("java.io.tmpdir")
 					+ System.getProperty("file.separator")
 					+ mpf.getOriginalFilename());
+			
 			try {
 				mpf.transferTo(tmpFile);
 			} catch (IllegalStateException e) {
@@ -131,9 +133,32 @@ public class InventoryController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println(mpf.getOriginalFilename() + " uploaded!");
 			reslt = mpf.getOriginalFilename();
-			System.out.println("result "+reslt);
+		}
+
+		return reslt;
+	}
+	
+	@RequestMapping(value = "/uploadToWS", method = RequestMethod.POST)
+	public @ResponseBody
+	String uploadToService(MultipartHttpServletRequest request,
+			HttpServletResponse response) {
+		
+		String reslt = "File Upload to Service Failed";
+		
+		if (request instanceof MultipartHttpServletRequest) {
+			
+			Iterator<String> itr = ((MultipartHttpServletRequest) request)
+					.getFileNames();
+
+			MultipartFile mpf = ((MultipartHttpServletRequest) request)
+					.getFile(itr.next());
+			
+			if(wsHelper != null){
+				wsHelper = new WebServiceHelper();
+			}
+			
+			reslt = wsHelper.fileUploadClient(mpf);
 		}
 
 		return reslt;

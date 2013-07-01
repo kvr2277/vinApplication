@@ -26,6 +26,7 @@
 <script type="text/javascript">
 
 var xyz = 'sparrow.jpg';
+var abc = 'Vinod.jpg';
 	function capitaliseFirstLetter(string) {
 		return string.charAt(0).toUpperOil() + string.slice(1);
 	}
@@ -48,6 +49,7 @@ var xyz = 'sparrow.jpg';
 					source : stateData
 				});
 				$('#imgContent').attr('src','resources/images/'+xyz);
+				$('#imgContent2').attr('src','resources/images/'+abc);
 				$("#commentForm").validate({
 					rules : {
 						//these are names and not ids :)
@@ -106,6 +108,7 @@ var xyz = 'sparrow.jpg';
 
 	//using FormData() object
 	function uploadFormData() {
+		$('#imgResult').html('');
 		$('#imgContent').html('');
 		var oMyForm = new FormData();
 		oMyForm.append("file", file2.files[0]);
@@ -121,7 +124,28 @@ var xyz = 'sparrow.jpg';
 				$('#imgContent').attr('src','resources/images/'+response);
 			}
 		});
-	}
+	};
+		
+		//using FormData() object
+		function uploadFormDataToWS() {
+			$('#imgResult2').html('');
+			$('#imgContent2').html('');
+			var oMyForm = new FormData();
+			oMyForm.append("file", file3.files[0]);
+
+			$.ajax({
+				url : 'uploadToWS',
+				data : oMyForm,
+				dataType : 'text',
+				processData : false,
+				contentType : false,
+				type : 'POST',
+				success : function(response) {
+					$('#imgContent2').attr('src','resources/images/VIN.jpg');
+				}
+			});
+		};
+	
 </script>
 
 </head>
@@ -216,6 +240,15 @@ var xyz = 'sparrow.jpg';
 	<button value="Submit" onclick="uploadFormData()">Upload</button>
 	<img src="#" id="imgContent" />
 	<div id="imgResult"></div>
+
+	<!-- Form 3 -->
+	 <form id="form3" method="post" action="uploadToWS" enctype="multipart/form-data">
+		<input name="file3" id="file3" type="file" /><br />
+	</form>
+
+	<button value="Submit" onclick="uploadFormDataToWS()">Upload to WS</button>
+	<img src="#" id="imgContent2" />
+	<div id="imgResult2"></div> 
 
 </body>
 </html>
