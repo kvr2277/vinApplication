@@ -156,6 +156,9 @@ var abc = 'Vinod.jpg';
 		<h2>Enter Inventory</h2>
 	</div>
 	<div align="center">
+		<a href="<c:url value="/addVendor" />">Add Vendor</a>
+	</div>
+	<div align="right">
 		<a href="<c:url value="/j_spring_security_logout" />"> Logout</a>
 	</div>
 

@@ -20,3 +20,22 @@ When you select Rice - kgs/quintals/bags etc
 
 Ideally there should be one list for type dropdown and based on our selection of item, some values in the list have to become invisible
 
+
+----
+
+Rest Security
+SOAP get/post/image/security
+JUnit
+JMX Appenders
+JBPM
+Stateless and Stateful
+XML - DOM and SAX
+JAXB
+LDAP
+RPC
+JDBC
+Hibernate
+and
+Stored Proc
+DB Triggers
+Schedulers
