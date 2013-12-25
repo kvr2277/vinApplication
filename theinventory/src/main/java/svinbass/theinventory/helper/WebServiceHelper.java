@@ -27,7 +27,7 @@ public class WebServiceHelper {
 
 		WebServiceHelper wshelper = new WebServiceHelper();
 		System.out.println("Contact number " + wshelper.contactNumberClient(input));
-		File file = new File("E:/Goodies/tmp/sparrow.jpg");
+		File file = new File("F:/Goodies/tmp/sparrow.jpg");
 	//	wshelper.fileUploadClient(file);
 		
 	}
