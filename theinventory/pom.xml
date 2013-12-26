@@ -55,7 +55,7 @@
 			<version>1.2.2</version>
 		</dependency>
 
-		<!-- Apache Axis - for soap-->
+		<!-- Apache Axis - for soap -->
 		<dependency>
 			<groupId>org.apache.axis</groupId>
 			<artifactId>axis</artifactId>
@@ -70,14 +70,14 @@
 			<version>1.3.2</version>
 		</dependency>
 
-		<!--  For SOAP Client -->
+		<!-- For SOAP Client -->
 		<dependency>
 			<groupId>commons-discovery</groupId>
 			<artifactId>commons-discovery</artifactId>
 			<version>0.2</version>
 		</dependency>
 
-		
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -140,16 +140,30 @@
 			<version>1.8</version>
 		</dependency>
 
+		<dependency>
+			<groupId>javax.xml</groupId>
+			<artifactId>jaxrpc-api</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+
 	</dependencies>
 	<build>
 		<plugins>
+			<!--  Below is older versions of Jboss. Maven goal for using the below is jboss:hard-undeploy clean install  jboss:hard-deploy -->
+			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>jboss-maven-plugin</artifactId> 
+				<version>1.4.1</version> <configuration> <jbossHome>${env.JBOSS_HOME}</jbossHome> 
+				<serverName>default</serverName> <fileName>target/theinventory-1.war</fileName> 
+				</configuration> </plugin> -->
+				
+			<!--  Maven goal for using this is clean install jboss-as:deploy -->
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jboss-maven-plugin</artifactId>
-				<version>1.4.1</version>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>7.1.1.Final</version>
 				<configuration>
 					<jbossHome>${env.JBOSS_HOME}</jbossHome>
-					<serverName>default</serverName>
+					<!-- <serverName>default</serverName> -->
 					<fileName>target/theinventory-1.war</fileName>
 				</configuration>
 			</plugin>

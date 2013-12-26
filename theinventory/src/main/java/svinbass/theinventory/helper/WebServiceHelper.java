@@ -6,11 +6,18 @@ import java.io.IOException;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.FileUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.multipart.MultipartFile;
 
 import svinbass.theinventory.model.Business;
 
+import com.model.Address;
+import com.soap.vendor.VendorAddressService;
+import com.soap.vendor.VendorAddressServiceProxy;
+import com.soap.vendor.VendorSoapService;
+import com.soap.vendor.VendorSoapServiceProxy;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -26,10 +33,35 @@ public class WebServiceHelper {
 		input.setIdNumber("001");
 
 		WebServiceHelper wshelper = new WebServiceHelper();
-		System.out.println("Contact number " + wshelper.contactNumberClient(input));
-		File file = new File("F:/Goodies/tmp/sparrow.jpg");
+		//System.out.println("Vendor Full Name :"+wshelper.getVendorFullName(input.getIdNumber()));
+		
+		//wshelper.getVendorAddress("001");
+		wshelper.testJson(input);
+		
+		//System.out.println("Contact number " + wshelper.contactNumberClient(input));
+		//File file = new File("F:/Goodies/tmp/sparrow.jpg");
 	//	wshelper.fileUploadClient(file);
 		
+	}
+	
+	private void testJson(Business input){
+		String str = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = 	mapper.writeValueAsString(input);
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println("JSON is : "+str);
+
 	}
 
 	public String contactNumberClient(Business input) {
@@ -94,5 +126,37 @@ public class WebServiceHelper {
 		
 		return filePath;
 	}
-
+	
+	
+	 public String getVendorFullName(String vendorId) {
+		 String response = null;
+	        try {
+	
+	        	VendorSoapServiceProxy proxy = new VendorSoapServiceProxy("http://localhost:9280/NICUtil/services/VendorSoapService?wsdl");
+	            VendorSoapService port = proxy.getVendorSoapService();
+	
+	            response = port.vendorName(vendorId);
+	
+	        } catch(Exception e) {
+	            e.printStackTrace();
+	        }
+	        return response;
+	    }
+	 
+	 public Address getVendorAddress(String vendorId) {
+		 Address addrResp = null;
+	        try {
+	
+	        	VendorAddressServiceProxy proxy = new VendorAddressServiceProxy("http://localhost:9280/NICUtil/services/VendorAddressService?wsdl");
+	            VendorAddressService service = proxy.getVendorAddressService();
+	
+	            addrResp = service.getVendorAddress(vendorId);
+	            
+	            System.out.println("Response Addrress is : "+addrResp.toString());
+	
+	        } catch(Exception e) {
+	            e.printStackTrace();
+	        }
+	        return addrResp;
+	    }
 }

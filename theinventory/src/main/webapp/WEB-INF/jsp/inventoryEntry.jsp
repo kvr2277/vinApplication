@@ -45,6 +45,8 @@ var abc = 'Vinod.jpg';
 					dateFormat : 'dd-mm-yy'
 				});
 				$("#result").hide();
+				$("#vendorName").hide();
+				$("#vendorAddress").hide();
 				$("#stateID").autocomplete({
 					source : stateData
 				});
@@ -100,6 +102,70 @@ var abc = 'Vinod.jpg';
 			error : function(err, response) {
 				alert("failure1");
 				$("#result").html(
+						'there is error while submitting ajax'
+								+ err.responseText);
+			}
+		});
+	};
+	
+	function ajaxGetFullName() {
+
+		var vendorName = $('#vendor').val();
+		var vendorId = $('#vendorID').val();
+
+		/* get some values from elements on the page: */
+		//   var values = $(this).serialize();
+		/* Send the data using post and put the results in a div */
+		$.ajax({
+			url : "getFullName",
+			type : "post",
+			data : "vendor=" + vendorName + "&vendorID=" + vendorId,
+			success : function(response) {
+				document.getElementById('vendorFullName').value = response;
+				$("#vendorFullName").text(response);
+				$("#vendorName").show();
+			},
+			error : function(err, response) {
+				alert("failure1");
+				$("#vendorName").html(
+						'there is error while submitting ajax'
+								+ err.responseText);
+			}
+		});
+	};
+	
+	
+	function ajaxGetAddress() {
+
+		var vendorName = $('#vendor').val();
+		var vendorId = $('#vendorID').val();
+
+		/* get some values from elements on the page: */
+		//   var values = $(this).serialize();
+		/* Send the data using post and put the results in a div */
+		$.ajax({
+			url : "getAddress",
+			type : "post",
+			dataType: 'json',
+			data : "vendor=" + vendorName + "&vendorID=" + vendorId,
+			success : function(response) {
+				document.getElementById('addrLine1').value = response.addressLine1;
+				document.getElementById('addrLine2').value = response.addressLine2;
+				document.getElementById('venCity').value = response.city;
+				document.getElementById('venState').value = response.state;
+				document.getElementById('venCountry').value = response.country;
+				document.getElementById('venZipcode').value = response.zipcode;
+				$("#addrLine1").text(response.addressLine1);
+				$("#addrLine2").text(response.addressLine2);
+				$("#venCity").text(response.city);
+				$("#venState").text(response.state);
+				$("#venCountry").text(response.country);
+				$("#venZipcode").text(response.zipcode);
+				$("#vendorAddress").show();
+			},
+			error : function(err, response) {
+				alert("failure1");
+				$("#vendorAddress").html(
 						'there is error while submitting ajax'
 								+ err.responseText);
 			}
@@ -178,6 +244,7 @@ var abc = 'Vinod.jpg';
 			<tr>
 				<td><form:label path="vendor">Vendor Name</form:label></td>
 				<td><form:input path="vendor" id="vendor" /></td>
+				
 			</tr>
 			<tr>
 				<td><form:label path="vendorID">Vendor ID</form:label></td>
@@ -196,6 +263,48 @@ var abc = 'Vinod.jpg';
 				<tr>
 					<td width="150">Vendor Contact</td>
 					<td><input id="vendorContact" name="vendorContact" /></td>
+					<td><input type="button" value="Get Full Name"
+					onclick="ajaxGetFullName()"><br /></td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="vendorName">
+			<table>
+				<tr>
+					<td width="150">Vendor Full Name</td>
+					<td><input id="vendorFullName" name="vendorFullName" /></td>
+					<td><input type="button" value="Get Address"
+					onclick="ajaxGetAddress()"><br /></td>
+				</tr>
+			</table>
+		</div>
+		
+		<div id="vendorAddress">
+			<table>
+				<tr>
+					<td width="150">Address Line1</td>
+					<td><input id="addrLine1" name="addrLine1" /></td>
+				</tr>
+				<tr>
+					<td width="150">Address Line2</td>
+					<td><input id="addrLine2" name="addrLine2" /></td>
+				</tr>
+				<tr>
+					<td width="150">City</td>
+					<td><input id="venCity" name="venCity" /></td>
+				</tr>
+				<tr>
+					<td width="150">State</td>
+					<td><input id="venState" name="venState" /></td>
+				</tr>
+				<tr>
+					<td width="150">Country</td>
+					<td><input id="venCountry" name="venCountry" /></td>
+				</tr>
+				<tr>
+					<td width="150">Zip Code</td>
+					<td><input id="venZipcode" name="venZipcode" /></td>
 				</tr>
 			</table>
 		</div>

@@ -8,6 +8,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -20,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.model.Address;
+
 import svinbass.theinventory.helper.WebServiceHelper;
 import svinbass.theinventory.model.Business;
 import svinbass.theinventory.model.Groceries;
@@ -27,7 +32,7 @@ import svinbass.theinventory.model.Item;
 
 @Controller
 @RequestMapping(value = { "/bookinventory", "/showContent", "/getContact",
-		"/testFileUpload", "/upload", "/uploadToWS" })
+		"/testFileUpload", "/upload", "/uploadToWS", "/getFullName", "/getAddress" })
 public class InventoryController {
 
 	WebServiceHelper wsHelper;
@@ -81,6 +86,62 @@ public class InventoryController {
 		}
 
 		return str;
+	}
+	
+	@RequestMapping(value = "/getFullName", method = RequestMethod.POST)
+	public @ResponseBody
+	String showVendorFullName(@ModelAttribute("groceries") Groceries groceries,
+			BindingResult result) {
+		String str = "No Value Received";
+
+		if (!result.hasErrors()) {
+			str = fullNameBuilder(groceries);
+		
+		} else {
+			str = "An error has occured while binding";
+		}
+
+		return str;
+	}
+	
+	@RequestMapping(value = "/getAddress", method = RequestMethod.POST)
+	public @ResponseBody
+	String getVendorAddress(@ModelAttribute("groceries") Groceries groceries,
+			BindingResult result) {
+		Address adr = null;
+		String str = "No response received";
+		
+		wsHelper = new WebServiceHelper();
+		adr = wsHelper.getVendorAddress(groceries.getVendorID());
+
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = 	mapper.writeValueAsString(adr);
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println("Address JSON is : "+str);
+		return str;
+	}
+	
+	private String fullNameBuilder(Groceries groceries) {
+		String vendorFullName = null;
+		Business bus = new Business();
+		bus.setName(groceries.getVendor());
+		bus.setIdNumber(groceries.getVendorID());
+
+		wsHelper = new WebServiceHelper();
+		vendorFullName = wsHelper.getVendorFullName(bus.getIdNumber());
+
+		return vendorFullName;
 	}
 
 	private void contactBuilder(Groceries groceries) {
