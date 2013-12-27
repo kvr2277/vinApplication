@@ -39,3 +39,6 @@ and
 Stored Proc
 DB Triggers
 Schedulers
+
+---
+Status -- 12/26 : Prepared Sample Hibernate project
