@@ -25,17 +25,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.model.Address;
 
-import svinbass.theinventory.helper.WebServiceHelper;
+import svinbass.theinventory.logic.BusinessLogic;
 import svinbass.theinventory.model.Business;
 import svinbass.theinventory.model.Groceries;
 import svinbass.theinventory.model.Item;
+import svinbass.theinventory.ws.WebServiceHelper;
 
 @Controller
 @RequestMapping(value = { "/bookinventory", "/showContent", "/getContact",
 		"/testFileUpload", "/upload", "/uploadToWS", "/getFullName", "/getAddress" })
 public class InventoryController {
 
-	WebServiceHelper wsHelper;
+	WebServiceHelper wsHelper = new WebServiceHelper();
+	BusinessLogic bs = new BusinessLogic();
 
 	@RequestMapping("/bookinventory")
 	public ModelAndView showContacts() {
@@ -58,10 +60,11 @@ public class InventoryController {
 	}
 
 	@RequestMapping(value = "/showContent", method = RequestMethod.POST)
-	public ModelAndView addContact(
+	public ModelAndView addContent(
 			@ModelAttribute("groceries") Groceries groceries,
 			BindingResult result) {
 
+		bs.saveAddrandVendor();
 		ModelAndView view = new ModelAndView("showDetails");
 		view.addObject("groceries", groceries);
 		return view;
@@ -138,7 +141,6 @@ public class InventoryController {
 		bus.setName(groceries.getVendor());
 		bus.setIdNumber(groceries.getVendorID());
 
-		wsHelper = new WebServiceHelper();
 		vendorFullName = wsHelper.getVendorFullName(bus.getIdNumber());
 
 		return vendorFullName;
@@ -150,7 +152,6 @@ public class InventoryController {
 		bus.setName(groceries.getVendor());
 		bus.setIdNumber(groceries.getVendorID());
 
-		wsHelper = new WebServiceHelper();
 		contact = wsHelper.contactNumberClient(bus);
 
 		if (contact != null) {
@@ -214,11 +215,7 @@ public class InventoryController {
 
 			MultipartFile mpf = ((MultipartHttpServletRequest) request)
 					.getFile(itr.next());
-			
-			if(wsHelper != null){
-				wsHelper = new WebServiceHelper();
-			}
-			
+					
 			reslt = wsHelper.fileUploadClient(mpf);
 		}
 

@@ -1,4 +1,4 @@
-package svinbass.theinventory.helper;
+package svinbass.theinventory.ws;
 
 import java.io.File;
 import java.io.IOException;

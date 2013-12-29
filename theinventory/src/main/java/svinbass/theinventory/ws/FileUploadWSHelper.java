@@ -1,4 +1,4 @@
-package svinbass.theinventory.helper;
+package svinbass.theinventory.ws;
 
 import java.io.File;
 
@@ -12,7 +12,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.multipart.BodyPart;
 import com.sun.jersey.multipart.MultiPart;
  
-public class Helper {
+public class FileUploadWSHelper {
   public static void main(String[] args) throws Exception {
     final String BASE_URI = "http://localhost:9280/NICUtil/rest/contact/upload";
  

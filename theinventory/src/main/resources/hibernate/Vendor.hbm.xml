@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.model.Vendor" table="vendor"
+		catalog="vinoracle">
+		<id name="vendorId" type="int">
+			<column name="VENDOR_ID" />
+			<generator class="sequence">
+				<param name="sequence">vendor_seq</param>
+			</generator>
+		</id>
+		<property name="vendorName" type="string">
+			<column name="VENDOR_NAME" length="50" not-null="true" unique="true" />
+		</property>
+		<property name="vendorTan" type="string">
+			<column name="VENDOR_TAN" length="10" not-null="false" unique="true" />
+		</property>
+		<property name="vendorType" type="string">
+			<column name="VENDOR_TYPE" length="3" not-null="false" unique="true" />
+		</property>
+		<many-to-one name="address" class="com.model.Address"
+			column="VENDOR_ADDR" cascade="all" not-null="true" />
+	</class>
+
+</hibernate-mapping>

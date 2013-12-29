@@ -8,25 +8,23 @@
 package com.model;
 
 public class Address  implements java.io.Serializable {
+	
+	private static final long serialVersionUID = -2279320349440747323L;
+
+
+public Address() {
+		super();
+  }
+
     private int addressId;
-
     private java.lang.String addressLine1;
-
     private java.lang.String addressLine2;
-
     private java.lang.String city;
-
     private java.lang.String country;
-
     private java.lang.String state;
-
-    private int vendorId;
-
     private java.lang.String zipcode;
 
-    public Address() {
-    }
-
+   
     public Address(
            int addressId,
            java.lang.String addressLine1,
@@ -34,7 +32,6 @@ public class Address  implements java.io.Serializable {
            java.lang.String city,
            java.lang.String country,
            java.lang.String state,
-           int vendorId,
            java.lang.String zipcode) {
            this.addressId = addressId;
            this.addressLine1 = addressLine1;
@@ -42,7 +39,6 @@ public class Address  implements java.io.Serializable {
            this.city = city;
            this.country = country;
            this.state = state;
-           this.vendorId = vendorId;
            this.zipcode = zipcode;
     }
 
@@ -166,27 +162,6 @@ public class Address  implements java.io.Serializable {
         this.state = state;
     }
 
-
-    /**
-     * Gets the vendorId value for this Address.
-     * 
-     * @return vendorId
-     */
-    public int getVendorId() {
-        return vendorId;
-    }
-
-
-    /**
-     * Sets the vendorId value for this Address.
-     * 
-     * @param vendorId
-     */
-    public void setVendorId(int vendorId) {
-        this.vendorId = vendorId;
-    }
-
-
     /**
      * Gets the zipcode value for this Address.
      * 
@@ -234,7 +209,6 @@ public class Address  implements java.io.Serializable {
             ((this.state==null && other.getState()==null) || 
              (this.state!=null &&
               this.state.equals(other.getState()))) &&
-            this.vendorId == other.getVendorId() &&
             ((this.zipcode==null && other.getZipcode()==null) || 
              (this.zipcode!=null &&
               this.zipcode.equals(other.getZipcode())));
@@ -265,7 +239,6 @@ public class Address  implements java.io.Serializable {
         if (getState() != null) {
             _hashCode += getState().hashCode();
         }
-        _hashCode += getVendorId();
         if (getZipcode() != null) {
             _hashCode += getZipcode().hashCode();
         }
@@ -314,13 +287,7 @@ public class Address  implements java.io.Serializable {
         elemField.setXmlName(new javax.xml.namespace.QName("http://model.com", "state"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setNillable(true);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("vendorId");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://model.com", "vendorId"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
+        typeDesc.addFieldDesc(elemField);        
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("zipcode");
         elemField.setXmlName(new javax.xml.namespace.QName("http://model.com", "zipcode"));
@@ -360,12 +327,15 @@ public class Address  implements java.io.Serializable {
             _javaType, _xmlType, typeDesc);
     }
 
+
 	@Override
 	public String toString() {
 		return "Address [addressId=" + addressId + ", addressLine1="
 				+ addressLine1 + ", addressLine2=" + addressLine2 + ", city="
 				+ city + ", country=" + country + ", state=" + state
-				+ ", vendorId=" + vendorId + ", zipcode=" + zipcode + "]";
+				+ ", zipcode=" + zipcode + "]";
 	}
+
+	
 
 }

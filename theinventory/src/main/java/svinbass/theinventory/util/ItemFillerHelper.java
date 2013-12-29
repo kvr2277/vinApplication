@@ -1,4 +1,4 @@
-package svinbass.theinventory.helper;
+package svinbass.theinventory.util;
 
 import java.util.ArrayList;
 import java.util.List;
