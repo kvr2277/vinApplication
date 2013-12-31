@@ -128,14 +128,14 @@ public class WebServiceHelper {
 	}
 	
 	
-	 public String getVendorFullName(String vendorId) {
+	 public String getVendorFullName(int vendorId) {
 		 String response = null;
 	        try {
 	
 	        	VendorSoapServiceProxy proxy = new VendorSoapServiceProxy("http://localhost:9280/NICUtil/services/VendorSoapService?wsdl");
 	            VendorSoapService port = proxy.getVendorSoapService();
 	
-	            response = port.vendorName(vendorId);
+	            response = port.vendorName(String.valueOf(vendorId));
 	
 	        } catch(Exception e) {
 	            e.printStackTrace();
@@ -143,14 +143,14 @@ public class WebServiceHelper {
 	        return response;
 	    }
 	 
-	 public Address getVendorAddress(String vendorId) {
+	 public Address getVendorAddress(int vendorId) {
 		 Address addrResp = null;
 	        try {
 	
 	        	VendorAddressServiceProxy proxy = new VendorAddressServiceProxy("http://localhost:9280/NICUtil/services/VendorAddressService?wsdl");
 	            VendorAddressService service = proxy.getVendorAddressService();
 	
-	            addrResp = service.getVendorAddress(vendorId);
+	            addrResp = service.getVendorAddress(String.valueOf(vendorId));
 	            
 	            System.out.println("Response Addrress is : "+addrResp.toString());
 	

@@ -30,9 +30,19 @@ public class BusinessLogic {
 		return vendor;
 	}
 	
-	public void saveAddrandVendor(){
-		Vendor vendor = getVendor();
+	public void saveAddrandVendor(Vendor vendor){
 		ph.saveAddressAndVendor(vendor.getAddress(), vendor);
+	}
+	
+	public Address retrieveAddress(int vendorId){
+		Address address = null;
+		address = ph.retrieveAddress(vendorId);
+		return address;
+	}
+	
+	public Vendor retrieveVendor(int vendorId){
+		Vendor vendor = ph.retrieveVendor(vendorId);
+		return vendor;
 	}
 
 }

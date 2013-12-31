@@ -5,18 +5,15 @@ import java.io.Serializable;
 public class Vendor implements Serializable{
 
 	private static final long serialVersionUID = -7731044722233394392L;
-
-	public Vendor() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
 	private int vendorId;
 	private String vendorName;
 	private String vendorTan;
 	private String vendorType;
 	private Address address;
-	
+
+	public Vendor() {
+		address = new Address();
+	}
 	
 	public Vendor(int vendorId, String vendorName, String vendorTan,
 			String vendorType, Address address) {

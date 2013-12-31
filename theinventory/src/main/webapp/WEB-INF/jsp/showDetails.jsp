@@ -1,4 +1,4 @@
-<%@page import="svinbass.theinventory.model.Groceries"%>
+<%@page import="svinbass.theinventory.model.Purchase"%>
 <%@page import="java.util.List"%>
 <%@page import="svinbass.theinventory.model.Item"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -11,35 +11,35 @@
 		<a href="<c:url value="/j_spring_security_logout" />"> Logout</a>
 	</div>
 	<%
-		Groceries grocery = (Groceries) request.getAttribute("groceries");
+		Purchase purchase = (Purchase) request.getAttribute("purchase");
 	%>
 	<div>
 		<table>
 			<tr>
 				<td width="150">State</td>
-				<td><%=grocery.getState()%></td>
+				<td><%=purchase.getVendor().getAddress().getState()%></td>
 			</tr>
 			<tr>
 				<td>Location</td>
-				<td><%=grocery.getLocation()%></td>
+				<td><%=purchase.getPurchLocation()%></td>
 			</tr>
 			<tr>
 				<td>Vendor Name</td>
-				<td><%=grocery.getVendor()%></td>
+				<td><%=purchase.getVendor().getVendorName()%></td>
 			</tr>
 			<tr>
 				<td>Vendor ID</td>
-				<td><%=grocery.getVendorID()%></td>
+				<td><%=purchase.getVendor().getVendorId()%></td>
 			</tr>
-			<tr>
+			<%-- <tr>
 				<td>Vendor Contact</td>
 				<td><%=grocery.getVendorContact()%></td>
-			</tr>
+			</tr> --%>
 			<tr>
 				<td>Purchase Date</td>
-				<td><%=grocery.getPurchDate()%></td>
+				<td><%=purchase.getPurchDate()%></td>
 			</tr>
-			<c:forEach var="grocery" items="${groceries.groceryList}">
+			<c:forEach var="grocery" items="${purchase.groceryList}">
 				<tr>
 					<td><c:out value="${grocery.name}" /></td>
 					<td><c:out value="${grocery.price}" /></td>
@@ -47,7 +47,7 @@
 			</c:forEach>
 			<tr>
 				<td>Total Value (Rs.)</td>
-				<td><%=grocery.getTotalPrice()%></td>
+				<td><%=purchase.getTotalPrice()%></td>
 			</tr>
 		</table>
 

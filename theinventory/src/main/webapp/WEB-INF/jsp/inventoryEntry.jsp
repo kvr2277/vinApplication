@@ -57,14 +57,14 @@ var abc = 'Vinod.jpg';
 						//these are names and not ids :)
 						state : "required",
 						location : "required",
-						vendor : "required",
+					/* 	vendor : "required", */
 						vendorID : "required",
 						purchDate : "required"
 					},
 					messages : {
 						state : "Please enter state name",
 						location : "Please enter a location",
-						vendor : "Please enter vendor name",
+						/* vendor : "Please enter vendor name", */
 						vendorID : "Please enter vendor ID",
 						purchDate : "Please enter purchase date"
 
@@ -84,7 +84,7 @@ var abc = 'Vinod.jpg';
 	/* attach a submit handler to the form */
 	function doAjaxPost() {
 
-		var vendorName = $('#vendor').val();
+		/* var vendorName = $('#vendor').val(); */
 		var vendorId = $('#vendorID').val();
 
 		/* get some values from elements on the page: */
@@ -93,7 +93,8 @@ var abc = 'Vinod.jpg';
 		$.ajax({
 			url : "getContact",
 			type : "post",
-			data : "vendor=" + vendorName + "&vendorID=" + vendorId,
+			/* data : "vendor=" + vendorName + "&vendorID=" + vendorId, */
+			data : "vendor.vendorId=" + vendorId,
 			success : function(response) {
 				document.getElementById('vendorContact').value = response;
 				$("#vendorContact").text(response);
@@ -110,16 +111,13 @@ var abc = 'Vinod.jpg';
 	
 	function ajaxGetFullName() {
 
-		var vendorName = $('#vendor').val();
+		/* var vendorName = $('#vendor').val(); */
 		var vendorId = $('#vendorID').val();
-
-		/* get some values from elements on the page: */
-		//   var values = $(this).serialize();
-		/* Send the data using post and put the results in a div */
+		
 		$.ajax({
 			url : "getFullName",
-			type : "post",
-			data : "vendor=" + vendorName + "&vendorID=" + vendorId,
+			type : "post",	
+			data : "vendor.vendorId=" + vendorId, 
 			success : function(response) {
 				document.getElementById('vendorFullName').value = response;
 				$("#vendorFullName").text(response);
@@ -137,7 +135,7 @@ var abc = 'Vinod.jpg';
 	
 	function ajaxGetAddress() {
 
-		var vendorName = $('#vendor').val();
+		/* var vendorName = $('#vendor').val(); */
 		var vendorId = $('#vendorID').val();
 
 		/* get some values from elements on the page: */
@@ -147,7 +145,7 @@ var abc = 'Vinod.jpg';
 			url : "getAddress",
 			type : "post",
 			dataType: 'json',
-			data : "vendor=" + vendorName + "&vendorID=" + vendorId,
+			data : "vendor.vendorId=" + vendorId, 
 			success : function(response) {
 				document.getElementById('addrLine1').value = response.addressLine1;
 				document.getElementById('addrLine2').value = response.addressLine2;
@@ -160,7 +158,8 @@ var abc = 'Vinod.jpg';
 				$("#venCity").text(response.city);
 				$("#venState").text(response.state);
 				$("#venCountry").text(response.country);
-				$("#venZipcode").text(response.zipcode);
+				$("#venZipcode").text(response.zipcode); 
+				
 				$("#vendorAddress").show();
 			},
 			error : function(err, response) {
@@ -230,35 +229,36 @@ var abc = 'Vinod.jpg';
 
 	<%-- <form:form modelAttribute="groceries" method="post" id="commentForm"
 		action="testFileUpload"> --%>
-	<form:form modelAttribute="groceries" method="post" id="commentForm"
+	<form:form modelAttribute="purchase" method="post" id="commentForm"
 		action="showContent">
 		<table>
 			<tr>
-				<td width="150"><form:label path="state">State</form:label></td>
+				<td>Purchase Date</td>
+				<td><input type="text" name="purchDate" id="datepicker" /></td>
+			</tr>
+			<tr>
+				<td>Location</td>
+				<td><form:input id="location" path="purchLocation" /></td>
+			</tr>
+			<tr>
+				<td width="150">State</td>
 				<td><input id="stateID" name="state" /></td>
 			</tr>
 			<tr>
-				<td><form:label path="location">Location</form:label></td>
-				<td><form:input path="location" /></td>
+				<td><form:label path="employee.empId">Entered By (Emp ID)</form:label></td>
+				<td><form:input path="employee.empId" id="empId"/></td>
 			</tr>
 			<tr>
-				<td><form:label path="vendor">Vendor Name</form:label></td>
-				<td><form:input path="vendor" id="vendor" /></td>
-				
-			</tr>
-			<tr>
-				<td><form:label path="vendorID">Vendor ID</form:label></td>
-				<td><form:input path="vendorID" id="vendorID" /></td>
-				<td><input type="button" value="Get Contact"
-					onclick="doAjaxPost()"><br /></td>
-			</tr>
-			<tr>
-				<td><form:label path="purchDate">Purchase Date</form:label></td>
-				<td><input type="text" name="purchDate" id="datepicker" /></td>
+				<td>Vendor ID</td>
+				<td><form:input path="vendor.vendorId" id="vendorID" /></td>
+				<!-- <td><input type="button" value="Get Contact"
+					onclick="doAjaxPost()"><br /></td> -->
+					<td><input type="button" value="Get Full Name"
+					onclick="ajaxGetFullName()"><br /></td>
 			</tr>
 		</table>
 
-		<div id="result">
+		<!-- <div id="result">
 			<table>
 				<tr>
 					<td width="150">Vendor Contact</td>
@@ -267,13 +267,13 @@ var abc = 'Vinod.jpg';
 					onclick="ajaxGetFullName()"><br /></td>
 				</tr>
 			</table>
-		</div>
+		</div> -->
 		
 		<div id="vendorName">
 			<table>
 				<tr>
 					<td width="150">Vendor Full Name</td>
-					<td><input id="vendorFullName" name="vendorFullName" /></td>
+					<td><form:input path="vendor.vendorName" id="vendorFullName"/></td>
 					<td><input type="button" value="Get Address"
 					onclick="ajaxGetAddress()"><br /></td>
 				</tr>
@@ -284,33 +284,42 @@ var abc = 'Vinod.jpg';
 			<table>
 				<tr>
 					<td width="150">Address Line1</td>
-					<td><input id="addrLine1" name="addrLine1" /></td>
+					<td><form:input path="vendor.address.addressLine1" id="addrLine1"/><!-- <input id="addrLine1" name="addrLine1" /> --></td>
 				</tr>
 				<tr>
 					<td width="150">Address Line2</td>
-					<td><input id="addrLine2" name="addrLine2" /></td>
+					<td><form:input path="vendor.address.addressLine2" id="addrLine2"/><!-- <input id="addrLine2" name="addrLine2" /> --></td>
 				</tr>
 				<tr>
 					<td width="150">City</td>
-					<td><input id="venCity" name="venCity" /></td>
+					<td><form:input path="vendor.address.city" id="venCity"/><!-- <input id="venCity" name="venCity" /> --></td>
 				</tr>
 				<tr>
 					<td width="150">State</td>
-					<td><input id="venState" name="venState" /></td>
+					<td><form:input path="vendor.address.state" id="venState"/><!-- <input id="venState" name="venState" /> --></td>
 				</tr>
 				<tr>
 					<td width="150">Country</td>
-					<td><input id="venCountry" name="venCountry" /></td>
+					<td><form:input path="vendor.address.country" id="venCountry"/><!-- <input id="venCountry" name="venCountry" /> --></td>
 				</tr>
 				<tr>
 					<td width="150">Zip Code</td>
-					<td><input id="venZipcode" name="venZipcode" /></td>
+					<td><form:input path="vendor.address.zipcode" id="venZipcode"/><!-- <input id="venZipcode" name="venZipcode" /> --></td>
 				</tr>
 			</table>
 		</div>
 
-		<form:hidden path="totalPrice"></form:hidden>
-		<form:hidden path="vendorContact"></form:hidden>
+		<form:hidden path="totalPrice"></form:hidden> 
+		<form:hidden path="employee"></form:hidden> 
+		<%-- <form:hidden path="vendorContact"></form:hidden> --%>
+		<%-- <form:hidden path="vendor.address.addressLine1"></form:hidden> 
+		<form:hidden path="vendor.address.addressLine2"></form:hidden> 
+		<form:hidden path="vendor.address.city"></form:hidden> 
+		<form:hidden path="vendor.address.state"></form:hidden> 
+		<form:hidden path="vendor.address.country"></form:hidden>
+		<form:hidden path="vendor.address.zipcode"></form:hidden> 
+		<form:hidden path="employee"></form:hidden> --%>
+		
 
 		<table border="1" id="table1">
 			<tr>
@@ -322,11 +331,11 @@ var abc = 'Vinod.jpg';
 					summary="sum">Subtotal</th>
 			</tr>
 			<c:forEach var="prod" varStatus="grocStatus"
-				items="${groceries.groceryList}" begin="0">
+				items="${purchase.groceryList}" begin="0">
 				<tr>
 					<td><form:select path="groceryList[${grocStatus.index}].name"
 							id="name${grocStatus.index}">
-							<form:options items="${groceries.itemList}" />
+							<form:options items="${purchase.itemList}" />
 						</form:select></td>
 					<td><form:input
 							path="groceryList[${grocStatus.index}].quantity"

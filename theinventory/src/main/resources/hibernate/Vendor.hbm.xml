@@ -21,7 +21,7 @@
 			<column name="VENDOR_TYPE" length="3" not-null="false" unique="true" />
 		</property>
 		<many-to-one name="address" class="com.model.Address"
-			column="VENDOR_ADDR" cascade="all" not-null="true" />
+			column="VENDOR_ADDR" not-null="true" />
 	</class>
 
 </hibernate-mapping>
