@@ -145,35 +145,32 @@
 			<artifactId>jaxrpc-api</artifactId>
 			<version>1.1</version>
 		</dependency>
-		
-		<!-- Spring + Hibernate Dependency -->
-		<!-- <dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>4.0.0.RELEASE</version>
-		</dependency> -->
-		
 
-		<!-- Hibernate framework dependency start-->
+		<!-- Spring + Hibernate Dependency -->
+		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-orm</artifactId> 
+			<version>4.0.0.RELEASE</version> </dependency> -->
+
+
+		<!-- Hibernate framework dependency start -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>3.6.7.Final</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
 			<version>3.5.1-Final</version>
 			<type>pom</type>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>1.6.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
@@ -207,16 +204,25 @@
 			<version>11.2.0</version>
 		</dependency>
 
+		<!-- Mong DB -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>2.10.1</version>
+		</dependency>
+
+
 	</dependencies>
 	<build>
 		<plugins>
-			<!--  Below is older versions of Jboss. Maven goal for using the below is jboss:hard-undeploy clean install  jboss:hard-deploy -->
+			<!-- Below is older versions of Jboss. Maven goal for using the below 
+				is jboss:hard-undeploy clean install jboss:hard-deploy -->
 			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>jboss-maven-plugin</artifactId> 
 				<version>1.4.1</version> <configuration> <jbossHome>${env.JBOSS_HOME}</jbossHome> 
 				<serverName>default</serverName> <fileName>target/theinventory-1.war</fileName> 
 				</configuration> </plugin> -->
-				
-			<!--  Maven goal for using this is clean install jboss-as:deploy -->
+
+			<!-- Maven goal for using this is clean install jboss-as:deploy -->
 			<plugin>
 				<groupId>org.jboss.as.plugins</groupId>
 				<artifactId>jboss-as-maven-plugin</artifactId>

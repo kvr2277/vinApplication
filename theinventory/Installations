@@ -1,0 +1,17 @@
+Mongodb
+-----------
+File: mongodb-win32-x86_64-2008plus-2.4.8
+Website: http://dl.mongodb.org/dl/win32/x86_64
+
+Unpack and copy entire contents to F:/mongodb folder (bin folder is directly under F:/mongodb)
+
+In command prompt, navigate to F:/mongodb/bin
+Issue: mongod (to start mongo db)
+
+
+UMongo (Mongo Client)
+----------------------
+File: umongo-windows-all_1-6-1
+URL: http://edgytech.com/umongo/
+
+Start by opening F:\Software\umongo-windows-all_1-6-1\umongo (application file)
