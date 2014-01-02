@@ -109,6 +109,7 @@ var abc = 'Vinod.jpg';
 		});
 	};
 	
+	
 	function ajaxGetFullName() {
 
 		/* var vendorName = $('#vendor').val(); */
@@ -210,7 +211,8 @@ var abc = 'Vinod.jpg';
 				}
 			});
 		};
-	
+		
+		
 </script>
 
 </head>
@@ -308,8 +310,12 @@ var abc = 'Vinod.jpg';
 				</tr>
 			</table>
 		</div>
-
+		
+		<form:textarea id="reviewId" path="review.comment" rows="5" cols="30" />
+		
+		
 		<form:hidden path="totalPrice"></form:hidden> 
+		<form:hidden path="review.vendorId"></form:hidden> 
 		<form:hidden path="employee"></form:hidden> 
 		<%-- <form:hidden path="vendorContact"></form:hidden> --%>
 		<%-- <form:hidden path="vendor.address.addressLine1"></form:hidden> 
@@ -371,5 +377,14 @@ var abc = 'Vinod.jpg';
 	<img src="#" id="imgContent2" />
 	<div id="imgResult2"></div> 
 
+<!-- <script>
+$('#reviewId').blur(function () {
+	alert("Hi");
+	 alert($('purcahse.vendor.vendorId').val());
+	 document.getElementById('review.vendorId').value= $(vendor.vendorId).val();
+	 alert($(review.vendorId).val());
+	
+	});
+	</script> -->
 </body>
 </html>

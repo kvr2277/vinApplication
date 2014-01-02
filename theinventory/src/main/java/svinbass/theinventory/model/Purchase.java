@@ -21,10 +21,13 @@ public class Purchase {
 	private List<Item> groceryList = ListUtils.lazyList(new ArrayList<Item>(), FactoryUtils.instantiateFactory(Item.class));
 	private String totalPrice;
 	private int tempVendorId;
+	//private List<Review> reviewList = ListUtils.lazyList(new ArrayList<Review>(), FactoryUtils.instantiateFactory(Review.class));
+	private Review review;
 	
 	public Purchase(){
 		employee = new Employee();
 		vendor = new Vendor();
+		review = new Review();
 	}
 	
 	public Purchase(int purchaseId, Date purchDate, String purchLocation,
@@ -98,6 +101,14 @@ public class Purchase {
 	public void setTempVendorId(int tempVendorId) {
 		this.tempVendorId = tempVendorId;
 	}
+	public Review getReview() {
+		return review;
+	}
+
+	public void setReview(Review review) {
+		this.review = review;
+	}
+
 	@Override
 	public String toString() {
 		return "Purchase [purchaseId=" + purchaseId + ", purchDate="
@@ -105,7 +116,7 @@ public class Purchase {
 				+ ", employee=" + employee + ", vendor=" + vendor
 				+ ", itemList=" + itemList + ", groceryList=" + groceryList
 				+ ", totalPrice=" + totalPrice + ", tempVendorId="
-				+ tempVendorId + "]";
+				+ tempVendorId + ", review=" + review + "]";
 	}  
 	
 }

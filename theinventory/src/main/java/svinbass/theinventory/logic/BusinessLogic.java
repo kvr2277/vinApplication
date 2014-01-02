@@ -1,5 +1,8 @@
 package svinbass.theinventory.logic;
 
+import svinbass.theinventory.model.Purchase;
+import svinbass.theinventory.model.Review;
+import svinbass.theinventory.mongo.MongoHelper;
 import svinbass.theinventory.persistence.PersistenceHelper;
 
 import com.model.Vendor;
@@ -8,6 +11,7 @@ import com.model.Address;
 public class BusinessLogic {
 	
 	PersistenceHelper ph = new PersistenceHelper();
+	MongoHelper mh = new MongoHelper();
 
 	public Address getAddress() {
 		Address address = new Address();
@@ -43,6 +47,14 @@ public class BusinessLogic {
 	public Vendor retrieveVendor(int vendorId){
 		Vendor vendor = ph.retrieveVendor(vendorId);
 		return vendor;
+	}
+	
+	public void saveReview(Purchase purchase){
+		Review rev = purchase.getReview();
+		rev.setVendorId(purchase.getVendor().getVendorId());
+		rev.setEmpId(purchase.getEmployee().getEmpId());
+		rev.setRating(3.5);
+		mh.saveReview(rev);
 	}
 
 }

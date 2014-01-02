@@ -67,6 +67,7 @@ public class InventoryController {
 		
 		Vendor vend = purchase.getVendor();
 		vend.setVendorTan("AVMP0001");
+		bs.saveReview(purchase);
 		bs.saveAddrandVendor(purchase.getVendor());
 		ModelAndView view = new ModelAndView("showDetails");
 		view.addObject("purchase", purchase);
