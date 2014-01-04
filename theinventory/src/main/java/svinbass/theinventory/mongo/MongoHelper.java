@@ -26,20 +26,33 @@ public class MongoHelper {
 	
 	public void saveReview(Review review){
 		mongoOperation.save(review);
-		findCommentsByEmpId(review.getEmpId());
+		//findCommentsByEmpId(review.getEmpId());
 		
 	}
 	
-	private void findCommentsByEmpId(int empId){
+	public List<Review> findReviewsByEmpId(int empId){
 		List<Review> reviews = mongoOperation.find(
                 new Query(Criteria.where("empId").is(String.valueOf(empId))),
                 Review.class);
 		
 		for (Review review : reviews) {
-			System.out.println(review);
-			
+			System.out.println(review);			
 		}
 
+		return reviews;
+	}
+	
+	public List<Review> findReviews(){
+		Query query = new Query();
+		query.addCriteria(Criteria.where("rating").gte(3));
+		List<Review> reviews = mongoOperation.find(query,
+                Review.class);
+		
+		for (Review review : reviews) {
+			System.out.println(review);			
+		}
+
+		return reviews;
 	}
 	
 	
