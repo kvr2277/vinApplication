@@ -7,8 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Consumes;
 
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import svinbass.theinventory.logic.BusinessLogic;
-import svinbass.theinventory.model.Employee;
 import svinbass.theinventory.model.Item;
 import svinbass.theinventory.model.Purchase;
 import svinbass.theinventory.ws.WebServiceHelper;
@@ -38,6 +37,8 @@ import com.model.Vendor;
 		"/testFileUpload", "/upload", "/uploadToWS", "/getFullName",
 		"/getAddress" })
 public class InventoryController {
+	
+	private static final Logger logger_c = Logger.getLogger(InventoryController.class);
 
 	WebServiceHelper wsHelper = new WebServiceHelper();
 	BusinessLogic bs = new BusinessLogic();
@@ -45,6 +46,8 @@ public class InventoryController {
 	@RequestMapping("/bookinventory")
 	public ModelAndView showContacts(
 			@ModelAttribute("purchase") Purchase purchase, BindingResult result) {
+		
+		logger_c.debug("Inside /bookinventory showContacts");
 
 		Map<String, String> itemList = new LinkedHashMap<String, String>();
 		itemList.put("Rice", "Biyyam");
@@ -64,6 +67,8 @@ public class InventoryController {
 	@RequestMapping(value = "/showContent", method = RequestMethod.POST)
 	public ModelAndView addContent(
 			@ModelAttribute("purchase") Purchase purchase, BindingResult result) {
+		
+		logger_c.debug("Inside /showContent addContent");
 		
 		Vendor vend = purchase.getVendor();
 		vend.setVendorTan("AVMP0001");
