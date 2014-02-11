@@ -43,3 +43,8 @@ Schedulers
 ---
 Status -- 12/26 : Prepared Sample Hibernate project
 Status - 12/28 - Finished hibernate integartion
+
+---
+Add best practises:
+> Use String intern() for comparisons 
+> Use StringBuilder's append 
