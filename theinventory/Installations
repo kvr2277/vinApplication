@@ -15,3 +15,9 @@ File: umongo-windows-all_1-6-1
 URL: http://edgytech.com/umongo/
 
 Start by opening F:\Software\umongo-windows-all_1-6-1\umongo (application file)
+
+
+Servers:
+Tomcat - apache-tomcat-7.0.47
+Jbos - jboss-as-7.1.1.Final
+JDK - jdk1.7.0_51
