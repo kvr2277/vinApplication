@@ -235,11 +235,11 @@ var abc = 'Vinod.jpg';
 		action="showContent">
 		<table>
 			<tr>
-				<td>Purchase Date</td>
+				<td>Purchase Date15</td>
 				<td><input type="text" name="purchDate" id="datepicker" /></td>
 			</tr>
 			<tr>
-				<td>Location</td>
+				<td>Location1</td>
 				<td><form:input id="location" path="purchLocation" /></td>
 			</tr>
 			<tr>
