@@ -1,0 +1,68 @@
+OpenSSL for Windows 64:
+
+1. https://slproweb.com/products/Win32OpenSSL.html
+Win64 OpenSSL v1.0.1i
+2. Visual C++ 2008 Redistributables (x64)
+
+3. Create a folder certfactory
+D:\certfactory - called [CERTFACTORY_HOME]
+
+[CERTFACTORY_HOME]\ca
+[CERTFACTORY_HOME]\ca\certs
+[CERTFACTORY_HOME]\ca\crl
+[CERTFACTORY_HOME]\ca\newcerts
+[CERTFACTORY_HOME]\ca\private
+
+4. 
+Create a new (empty) Textfile named index.txt under [CERTFACTORY_HOME]\ca
+Copy file serial from [OpenSSL_HOME]\bin\PEM\demoCA to [CERTFACTORY_HOME]\ca
+Copy OpenSSLs Master-Configuration-File openssl.cfg from [OPENSSL_HOME]\bin directly to [CERTFACTORY_HOME]
+
+5. Modify openssl.cfg file
+
+[ WEBSERVICE_CA ]
+ 
+dir   = ./ca
+certs   = $dir/certs
+crl_dir   = $dir/crl
+database  = $dir/index.txt
+new_certs_dir  = $dir/newcerts
+certificate  = $dir/cacert.pem
+serial   = $dir/serial
+crlnumber  = $dir/crlnumber
+crl   = $dir/crl.pem
+private_key  = $dir/private/cakey.pem
+RANDFILE  = $dir/private/.rand
+x509_extensions  = usr_cert
+default_days  = 365
+default_crl_days = 30
+default_md  = sha1
+preserve  = no
+policy   = policy_anything
+ 
+[ policy_anything ]
+countryName  = optional
+stateOrProvinceName = optional
+localityName  = optional
+organizationName = optional
+organizationalUnitName = optional
+commonName  = supplied
+emailAddress  = optional
+
+6.
+
+[ ca ]
+default_ca = WEBSERVICE_CA
+
+
+7.
+In windows command prompt (open as administrator)
+set path to D:\OpenSSL-Windows64\bin\openssl.cfg
+set OPENSSL_CONF=D:\OpenSSL-Windows64\bin\openssl.cfg
+
+8.
+Navigate to D:\certfactory
+openssl req -x509 -days 365 -newkey rsa:1024 -keyout hostkey.pem -nodes -out hostcert.pem
+
+9.
+Enter some details on command prompt for questions asked
