@@ -69,3 +69,26 @@ Enter some details on command prompt for questions asked
 
 10.
 openssl x509 -outform DER -in hostcert.pem -out ca\cacert.cert
+
+11.
+Create a folder
+[CERTFACTORY_HOME]\truststore
+
+12.
+keytool -genkey -alias dummy -keyalg RSA -keystore truststore.jks
+
+Enter details for questions asked
+
+13.
+keytool -delete -alias dummy -keystore truststore.jks
+
+14.
+keytool -import -file ..\ca\cacert.cert -alias trustedCA -keystore truststore.jks
+
+Finally you'll get message:
+This certificate was added to keystore
+
+
+
+Reference:
+http://gleichmann.wordpress.com/2009/01/29/ws-security-using-cert-authentication-with-spring-ws-iii-setting-up-the-security-infrastructure/
