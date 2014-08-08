@@ -66,3 +66,6 @@ openssl req -x509 -days 365 -newkey rsa:1024 -keyout hostkey.pem -nodes -out hos
 
 9.
 Enter some details on command prompt for questions asked
+
+10.
+openssl x509 -outform DER -in hostcert.pem -out ca\cacert.cert
