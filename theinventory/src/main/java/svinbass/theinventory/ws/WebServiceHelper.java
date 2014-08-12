@@ -63,6 +63,25 @@ public class WebServiceHelper {
 		System.out.println("JSON is : "+str);
 
 	}
+	
+	private void parseJSON(){
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			 
+			// read from file, convert it to user class
+			Business user = mapper.readValue(new File("D:\\temp\\file.json"), Business.class);
+	 
+			// display to console
+			System.out.println(user);
+	 
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+	}
 
 	public String contactNumberClient(Business input) {
 
