@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+<script src="js/ui-bootstrap-custom-0.12.0.js"></script>
+<script src="js/ui-bootstrap-custom-tpls-0.12.0.js"></script>
+<script src="app/myApp.js"></script>
+<script src="controller/registrationCtrl.js"></script>
+<script src="controller/loginCtrl.js"></script>
+</head>
+<body  ng-app="myApp">
+<div ng-controller="mainController" novalidate>
+<div ng-controller="loginController" novalidate>
+		<div  ng-show="showLogin"
+			align="center" novalidate>
+			<h1 class="page-header text-center">Welcome! Login below to
+				Let's Gift</h1>
+			<form class="sign-up">
+				<table>
+					<tr>
+						<td colspan="2"><span style="color: red"
+							ng-show="invalidUserPassword">{{userPasswordErrDesc}}</span></td>
+					</tr>
+					<tr>
+						<td width="150px">Username:</td>
+						<td width="500px"><input type="text" name="user"
+							ng-keyup="invalidUser=false" ng-model="user.username"
+							ng-blur="validateField('username')"><br />
+							<span style="color: red" ng-show="invalidUser">{{usernameErrDesc}}</span>
+						</td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td><input type="password" name="password"
+							ng-keyup="invalidPassword=false" ng-model="user.password"
+							ng-blur="validateField('password')"><br />
+							<span style="color: red" ng-show="invalidPassword">{{passwordErrDesc}}</span>
+						</td>
+					</tr>
+
+					<tr style="padding-top: 100px">
+						<td align="right">
+							<!-- <button class="btn" ng-show="showSubmit" ng-click="submitUser(user,password)">Submit</button> -->
+							<button class="btn" ng-show="showSubmit" ng-click="submitUser()">Submit</button>
+						</td>
+						<td align="right">
+							<button class="btn" ng-click="showForgotPwd()">Forgot
+								Password?</button>
+						</td>
+					</tr>
+				</table>
+
+				<br> <br>
+				<p>If you are a new user, please register below</p>
+				<button class="btn" ng-click="createUser()">
+					<span class="glyphicon glyphicon-user"></span> Create New User
+				</button>
+			</form>
+		</div>
+
+		<div  ng-show="showForgot"
+			 class="ng-hide" align="center">
+			<!-- <pre>form = {{user | json}}</pre>
+			<pre>master = {{master | json}}</pre> -->
+			<h1 class="page-header text-center">Login Help</h1>
+
+			<form name="forgotPwdForm" class="sign-up" ng-submit="forgotPwdFormSubmit()" ng-init="initForgot(); ansCount = 0;">
+				<div>
+					<table>
+						<tr>
+							<td colspan="2" style="text-align: right; padding-right: 30px"><a
+								id="link" href="" ng-click="cancelForgot()">Cancel</a></td>
+						</tr>
+						<tr>
+							<td width="150px">Username:</td>
+
+							<td width="500px"><input type="text" name="user.username" 
+								ng-keyup="userKeyup()" ng-model="user.username"
+								ng-blur="validateField('username')"><br />
+								<span style="color: red" ng-show="invalidUsername">{{usernameErrDesc}}</span>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<p ng-show="showRetrieve">
+					<button class="btn" ng-click="retrieveSecurity(); count=0"
+						ng-init="count=0">Retrieve Security Questions</button>
+				</p>
+
+				<div ng-show="screen.showSecurity">
+					<p>
+						{{secureQuestion}} <input type="text"
+							ng-keyup="secureKeyup()"
+							name="quesResp"
+							ng-blur="validateField('quesResp')"
+							ng-model="user.quesResp" /> <a id="link" href=""
+							ng-click="changeQuestion()">Change Question</a> <br /> <span
+							style="color: red" ng-show="invalidQuesResp">{{ansErrDesc}}</span>
+						<span style="color: red" ng-show="invalidSecureAnswer">{{enteredInvalidAnswerDesc}}</span>
+					</p>
+					<p ng-show="showValidate">
+						<button class="btn"
+							ng-click="validateSecurity(); count = count + 1">Validate</button>
+					</p>
+				</div>
+
+
+
+				<div ng-show="showPwdDiv">
+					<table>
+						<tr>
+							<td width="150px">Password:</td>
+
+							<td width="500px"><input type="password" name="password" 
+								ng-keyup="invalidPassword=false" ng-model="user.password"
+								ng-blur="validateField('password')"> <br />
+								<span style="color: red" ng-show="invalidPassword">{{pwdErrDesc}}</span>
+							</td>
+						</tr>
+						<tr>
+							<td>Re-enter Password:</td>
+
+							<td><input type="text" name="repassword"
+								ng-model="user.repassword"
+								ng-keyup="invalidRePassword=false; passwordMatched=false"
+								ng-blur="validateField('repassword')">
+								<br /> <span style="color: red" ng-show="invalidRePassword">{{rePwdErrDesc}}</span>
+								<span style="color: blue" ng-show="passwordMatched">{{pwdMatchedDesc}}</span>
+							</td>
+						</tr>
+
+					</table>
+					<p>
+						<button class="btn" ng-click="submitForgot(); count = count + 1">Submit</button>
+					</p>
+				</div>
+
+
+				<p>Count is : {{count}}</p>
+			</form>
+		</div>
+		</div>
+
+		<div ng-controller="registrationController" ng-show="showReg"
+			novalidate class="ng-hide" align="center">
+			<!-- <pre>form = {{user | json}}</pre>
+			<pre>master = {{master | json}}</pre> -->
+			<h1 class="page-header text-center">Registration Form</h1>
+
+			<form class="sign-up">
+				<table>
+					<tr>
+						<td colspan="2" style="width:500px; text-align: right; padding-right: 30px"><a
+							id="link" href="" ng-click="cancelSignup()">Cancel</a></td>
+					</tr>
+					<tr>
+						<td width="150px" style="padding-bottom:20px;text-align: center;">First Name:</td>
+
+						<td style="padding-bottom:20px;text-align: left;"><input type="text" name="fName"
+							ng-keyup="invalidFName=false" ng-model="user.fName"
+							ng-blur="validateField('fName')"><br /> <span
+							style="color: red" ng-show="invalidFName">{{fNameErrDesc}}</span>
+						</td>
+					</tr>
+
+					<tr>
+						<td width="150px" style="padding-bottom:20px;text-align: center;">Last Name:</td>
+
+						<td style="padding-bottom:20px;text-align: left;"><input type="text" name="lName" ng-model="user.lName"
+							ng-keyup="invalidLName=false"
+							ng-blur="validateField('lName')"> <br /> <span
+							style="color: red" ng-show="invalidLName">{{lNameErrDesc}}</span>
+						</td>
+					</tr>
+
+					<tr>
+						<td width="150px" style="padding-bottom:20px;text-align: center;">Username:</td>
+
+						<td style="padding-bottom:20px;text-align: left;"><input type="text" name="user"
+							ng-keyup="invalidUser=false" ng-model="user.userName"
+							ng-blur="validateField('user')"><br /> <span
+							style="color: red" ng-show="invalidUser">{{userNameErrDesc}}</span>
+						</td>
+					</tr>
+
+					<tr>
+						<td width="150px" style="padding-bottom:20px;text-align: center;">Password:</td>
+
+						<td style="padding-bottom:20px;text-align: left;"><input type="password" name="password"
+							ng-keyup="invalidPassword=false" ng-model="user.password"
+							ng-blur="validateField('password')"> <br />
+							<span style="color: red" ng-show="invalidPassword">{{pwdErrDesc}}</span>
+						</td>
+					</tr>
+
+					<tr>
+						<td width="150px" style="padding-bottom:20px;text-align: center;">Re-enter Password:</td>
+
+						<td style="padding-bottom:20px;text-align: left;"><input type="text" name="repassword"
+							ng-model="user.repassword"
+							ng-keyup="invalidRePassword=false; passwordMatched=false"
+							ng-blur="validateField('repassword')"> <br />
+							<span style="color: red" ng-show="invalidRePassword">{{rePwdErrDesc}}</span>
+							<span style="color: blue" ng-show="passwordMatched">{{pwdMatchedDesc}}</span>
+						</td>
+					</tr>
+
+					<tr>
+						<td width="150px" style="padding-bottom:20px;text-align: center;">Date of Birth:</td>
+
+						<td style="padding-bottom:20px;text-align: left;"><div class="input-group"><input style ="height: 35px;width:135px " type="text" datepicker-popup="{{format}}"
+							ng-model="user.dob" is-open="opened" min-date="minDate"
+							max-date="'2015-06-22'" datepicker-options="dateOptions"
+							date-disabled="disabled(date, mode)" close-text="Close" /> <span
+							class="input-group-btn">
+								<button type="button" class="btn btn-default"
+									ng-click="open($event)">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button>
+						</span></div></td>
+					</tr>
+
+					<tr>
+						<td width="150px" style="padding-bottom:20px;text-align: center;">Security Question1 :</td>
+
+						<td style="padding-bottom:20px;text-align: left;"><select style="width: 175px;height: 30px;" ng-model="user.myQues1"
+							ng-change="updateQuestions('myQues1')"
+							ng-options="question.desc for question in questions1"></select></td>
+					</tr>
+					<tr>
+						<td width="150px" style="padding-bottom:20px;text-align: center;">Security Answer1:</td>
+
+						<td style="padding-bottom:20px;text-align: left;"><input type="text" ng-keyup="invalidQues1Resp=false"
+							name="ques1Resp"
+							ng-blur="validateField('ques1Resp')"
+							ng-model="user.ques1Resp" /> <br /> <span style="color: red"
+							ng-show="invalidQues1Resp">{{ans1ErrDesc}}</span></td>
+					</tr>
+					<tr>
+						<td width="150px" style="padding-bottom:20px;text-align: center;">Security Question2 :</td>
+
+						<td style="padding-bottom:20px;text-align: left;"><select style="width: 175px;height: 30px;" ng-model="user.myQues2"
+							ng-change="updateQuestions('myQues2')"
+							ng-options="question.desc for question in questions2"></select></td>
+					</tr>
+					<tr>
+						<td width="150px" style="padding-bottom:20px;text-align: center;">Security Answer2:</td>
+
+						<td style="padding-bottom:20px;text-align: left;"><input type="text" ng-keyup="invalidQues2Resp=false"
+							name="ques2Resp"
+							ng-blur="validateField('ques2Resp')"
+							ng-model="user.ques2Resp" /> <br /> <span style="color: red"
+							ng-show="invalidQues2Resp">{{ans2ErrDesc}}</span></td>
+					</tr>
+					<tr>
+
+						<td align="right" style="padding-left:20px;padding-bottom:20px;"><button class="btn"
+								ng-click="resetSignup()">Reset</button></td>
+						<td align="left" style="padding-left:20px;padding-bottom:20px;"><button class="btn" ng-show="showSubmit"
+								ng-click="submitSignup()">Submit</button></td>
+
+					</tr>
+				</table>
+			</form>
+		</div>
+</body>
+</html>
