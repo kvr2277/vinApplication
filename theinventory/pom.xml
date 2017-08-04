@@ -238,6 +238,12 @@
 			<version>4.6.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+
 		<!-- Log4j -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -268,11 +274,11 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<repositories>
-    <repository>
-      <id>codelds</id>
-      <url>https://code.lds.org/nexus/content/groups/main-repo</url>
-    </repository>
-  </repositories>
+		<repository>
+			<id>codelds</id>
+			<url>https://code.lds.org/nexus/content/groups/main-repo</url>
+		</repository>
+	</repositories>
 </project>

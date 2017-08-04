@@ -1,17 +1,19 @@
 package svinbass.theinventory.ws;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
 
-import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.multipart.MultipartFile;
 
 import svinbass.theinventory.model.Business;
+import svinbass.theinventory.util.AWSS3Helper;
 
 import com.model.Address;
 import com.soap.vendor.VendorAddressService;
@@ -147,6 +149,7 @@ public class WebServiceHelper {
 	}
 	
 	
+	
 	 public String getVendorFullName(int vendorId) {
 		 String response = null;
 	        try {
@@ -178,4 +181,56 @@ public class WebServiceHelper {
 	        }
 	        return addrResp;
 	    }
+	 
+	 public String processMultipart(MultipartFile  mpf) {
+			String id = UUID.randomUUID().toString();
+			
+			boolean isProcessed = false;
+			boolean useS3 = true;
+			String message = null;
+			try {
+				
+				
+				
+				
+				
+				File convFile = new File("E:/Goodies/images/VIN.jpg");
+				
+				if(useS3){
+					File convFile1 = new File(mpf.getOriginalFilename());
+					
+					
+					convFile1.createNewFile(); 
+				    FileOutputStream fos1 = new FileOutputStream(convFile1); 
+				    fos1.write(mpf.getBytes());
+				    fos1.close(); 
+				    
+					AWSS3Helper.putFileInS3(convFile1);
+				}else{
+				
+				    convFile.createNewFile(); 
+				    FileOutputStream fos = new FileOutputStream(convFile); 
+				   
+	
+					// storing the image to file system.
+					if (convFile.isDirectory()) {
+						 fos.write(mpf.getBytes());
+						    fos.close(); 
+					} else {
+						convFile.mkdirs();
+						 fos.write(mpf.getBytes());
+						    fos.close(); 
+					}
+				}
+				isProcessed = true;
+
+			} catch (Exception e) {
+				message = e.getMessage();
+			}
+			if (isProcessed) {
+				return id;
+			}
+
+			return "Failed to process attachments. Reason : " + message;
+		}
 }

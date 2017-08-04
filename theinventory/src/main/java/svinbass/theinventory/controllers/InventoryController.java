@@ -210,7 +210,7 @@ public class InventoryController {
 			MultipartFile mpf = ((MultipartHttpServletRequest) request)
 					.getFile(itr.next());
 
-			reslt = wsHelper.fileUploadClient(mpf);
+			reslt = wsHelper.processMultipart(mpf);
 		}
 
 		return reslt;
