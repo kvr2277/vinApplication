@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import svinbass.theinventory.ws.WebServiceHelper;
+
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
@@ -20,7 +22,7 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 public class AWSS3Helper {
 	
 	private static final String SUFFIX = "/";
-	final static Logger logger = Logger.getLogger(AWSS3Helper.class);
+	private static final Logger logger_c = Logger.getLogger(WebServiceHelper.class);
 	
 	
 	public static void main(String[] args) {
@@ -38,7 +40,7 @@ public class AWSS3Helper {
 		
 		// list buckets
 		for (Bucket bucket : s3client.listBuckets()) {
-			logger.info(" - " + bucket.getName());
+			logger_c.info(" - " + bucket.getName());
 		}
 		
 		// create folder into bucket
@@ -64,6 +66,8 @@ public class AWSS3Helper {
 				// this example to work
 				AWSCredentials credentials = new BasicAWSCredentials(System.getProperty("AWS_ACCESS_KEY_ID"), System.getProperty("AWS_SECRET_ACCESS_KEY"));
 				
+				logger_c.info(" id " + System.getProperty("AWS_ACCESS_KEY_ID"));
+				logger_c.info(" ky " + System.getProperty("AWS_SECRET_ACCESS_KEY"));
 				// create a client connection based on credentials
 				AmazonS3 s3client = new AmazonS3Client(credentials);
 				
@@ -73,7 +77,7 @@ public class AWSS3Helper {
 				
 				// list buckets
 				for (Bucket bucket : s3client.listBuckets()) {
-					logger.info(" - " + bucket.getName());
+					logger_c.info(" - " + bucket.getName());
 				}
 				
 				// create folder into bucket

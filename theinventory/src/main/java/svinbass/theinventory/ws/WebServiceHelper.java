@@ -13,6 +13,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.multipart.MultipartFile;
 
+import svinbass.theinventory.controllers.InventoryController;
 import svinbass.theinventory.model.Business;
 import svinbass.theinventory.util.AWSS3Helper;
 
@@ -29,7 +30,7 @@ import com.sun.jersey.multipart.MultiPart;
 
 public class WebServiceHelper {
 	
-	final static Logger logger = Logger.getLogger(WebServiceHelper.class);
+	private static final Logger logger_c = Logger.getLogger(WebServiceHelper.class);
 
 	public static void main(String[] args) {
 
@@ -65,7 +66,7 @@ public class WebServiceHelper {
 			e.printStackTrace();
 		}
 		
-		logger.info("JSON is : "+str);
+		logger_c.info("JSON is : "+str);
 
 	}
 	
@@ -77,7 +78,7 @@ public class WebServiceHelper {
 			Business user = mapper.readValue(new File("D:\\temp\\file.json"), Business.class);
 	 
 			// display to console
-			logger.info(user);
+			logger_c.info(user);
 	 
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
@@ -108,7 +109,7 @@ public class WebServiceHelper {
 						+ response.getStatus());
 			}
 
-			logger.info("**Web Service Successful in helper**\n\n");
+			logger_c.info("**Web Service Successful in helper**\n\n");
 			contactNumber = response.getEntity(String.class);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -143,7 +144,7 @@ public class WebServiceHelper {
 					ClientResponse.class, multiPart);
 			filePath = response.getEntity(String.class);
 			
-			logger.info("id is "+filePath);
+			logger_c.info("id is "+filePath);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -177,7 +178,7 @@ public class WebServiceHelper {
 	
 	            addrResp = service.getVendorAddress(String.valueOf(vendorId));
 	            
-	            logger.info("Response Addrress is : "+addrResp.toString());
+	            logger_c.info("Response Addrress is : "+addrResp.toString());
 	
 	        } catch(Exception e) {
 	            e.printStackTrace();
