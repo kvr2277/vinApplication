@@ -38,6 +38,8 @@ import com.model.Vendor;
 		"/getAddress" })
 public class InventoryController {
 	
+	final static Logger logger = Logger.getLogger(InventoryController.class);
+	
 	private static final Logger logger_c = Logger.getLogger(InventoryController.class);
 
 	WebServiceHelper wsHelper = new WebServiceHelper();
@@ -141,7 +143,7 @@ public class InventoryController {
 			e.printStackTrace();
 		}
 
-		System.out.println("Address JSON is : " + str);
+		logger.info("Address JSON is : " + str);
 		return str;
 	}
 
@@ -168,7 +170,7 @@ public class InventoryController {
 
 		String reslt = "File Upload Failed";
 		if (request instanceof MultipartHttpServletRequest) {
-			System.out.println(" Inside Multipart");
+			logger.info(" Inside Multipart");
 
 			Iterator<String> itr = ((MultipartHttpServletRequest) request)
 					.getFileNames();

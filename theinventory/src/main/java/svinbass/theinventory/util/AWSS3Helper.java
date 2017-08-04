@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
@@ -18,6 +20,7 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 public class AWSS3Helper {
 	
 	private static final String SUFFIX = "/";
+	final static Logger logger = Logger.getLogger(AWSS3Helper.class);
 	
 	
 	public static void main(String[] args) {
@@ -35,7 +38,7 @@ public class AWSS3Helper {
 		
 		// list buckets
 		for (Bucket bucket : s3client.listBuckets()) {
-			System.out.println(" - " + bucket.getName());
+			logger.info(" - " + bucket.getName());
 		}
 		
 		// create folder into bucket
@@ -70,7 +73,7 @@ public class AWSS3Helper {
 				
 				// list buckets
 				for (Bucket bucket : s3client.listBuckets()) {
-					System.out.println(" - " + bucket.getName());
+					logger.info(" - " + bucket.getName());
 				}
 				
 				// create folder into bucket

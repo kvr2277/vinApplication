@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
 
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -27,6 +28,8 @@ import com.sun.jersey.multipart.BodyPart;
 import com.sun.jersey.multipart.MultiPart;
 
 public class WebServiceHelper {
+	
+	final static Logger logger = Logger.getLogger(WebServiceHelper.class);
 
 	public static void main(String[] args) {
 
@@ -35,12 +38,12 @@ public class WebServiceHelper {
 		input.setIdNumber("001");
 
 		WebServiceHelper wshelper = new WebServiceHelper();
-		//System.out.println("Vendor Full Name :"+wshelper.getVendorFullName(input.getIdNumber()));
+		//logger.info("Vendor Full Name :"+wshelper.getVendorFullName(input.getIdNumber()));
 		
 		//wshelper.getVendorAddress("001");
 		wshelper.testJson(input);
 		
-		//System.out.println("Contact number " + wshelper.contactNumberClient(input));
+		//logger.info("Contact number " + wshelper.contactNumberClient(input));
 		//File file = new File("F:/Goodies/tmp/sparrow.jpg");
 	//	wshelper.fileUploadClient(file);
 		
@@ -62,7 +65,7 @@ public class WebServiceHelper {
 			e.printStackTrace();
 		}
 		
-		System.out.println("JSON is : "+str);
+		logger.info("JSON is : "+str);
 
 	}
 	
@@ -74,7 +77,7 @@ public class WebServiceHelper {
 			Business user = mapper.readValue(new File("D:\\temp\\file.json"), Business.class);
 	 
 			// display to console
-			System.out.println(user);
+			logger.info(user);
 	 
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
@@ -105,7 +108,7 @@ public class WebServiceHelper {
 						+ response.getStatus());
 			}
 
-			System.out.println("**Web Service Successful in helper**\n\n");
+			logger.info("**Web Service Successful in helper**\n\n");
 			contactNumber = response.getEntity(String.class);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -140,7 +143,7 @@ public class WebServiceHelper {
 					ClientResponse.class, multiPart);
 			filePath = response.getEntity(String.class);
 			
-			System.out.println("id is "+filePath);
+			logger.info("id is "+filePath);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -174,7 +177,7 @@ public class WebServiceHelper {
 	
 	            addrResp = service.getVendorAddress(String.valueOf(vendorId));
 	            
-	            System.out.println("Response Addrress is : "+addrResp.toString());
+	            logger.info("Response Addrress is : "+addrResp.toString());
 	
 	        } catch(Exception e) {
 	            e.printStackTrace();
