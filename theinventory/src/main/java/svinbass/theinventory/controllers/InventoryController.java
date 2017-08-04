@@ -46,10 +46,10 @@ public class InventoryController {
 	BusinessLogic bs = new BusinessLogic();
 
 	@RequestMapping("/bookinventory")
-	public ModelAndView showContacts(
+	public ModelAndView bookinventory(
 			@ModelAttribute("purchase") Purchase purchase, BindingResult result) {
 		
-		logger_c.debug("Inside /bookinventory showContacts");
+		logger_c.debug("Inside /bookinventory bookinventory");
 
 		Map<String, String> itemList = new LinkedHashMap<String, String>();
 		itemList.put("Rice", "Biyyam");
@@ -202,6 +202,8 @@ public class InventoryController {
 	String uploadToService(MultipartHttpServletRequest request,
 			HttpServletResponse response) {
 
+		logger_c.debug("Inside /uploadToWS uploadToService");
+		
 		String reslt = "File Upload to Service Failed";
 
 		if (request instanceof MultipartHttpServletRequest) {
