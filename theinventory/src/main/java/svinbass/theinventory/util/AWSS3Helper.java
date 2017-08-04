@@ -61,6 +61,7 @@ public class AWSS3Helper {
 	
 	public static void putFileInS3(File file)	{
 		
+		logger_c.debug("Inside putFileInS3");
 		// credentials object identifying user for authentication
 				// user must have AWSConnector and AmazonS3FullAccess for 
 				// this example to work
@@ -89,6 +90,8 @@ public class AWSS3Helper {
 				s3client.putObject(new PutObjectRequest(bucketName, fileName, 
 						file)
 						.withCannedAcl(CannedAccessControlList.PublicRead));
+				
+				logger_c.debug("exiting putFileInS3");
 		
 	}
 	public static void createFolder(String bucketName, String folderName, AmazonS3 client) {

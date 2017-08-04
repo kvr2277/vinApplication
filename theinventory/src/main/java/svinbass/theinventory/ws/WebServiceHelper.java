@@ -189,6 +189,8 @@ public class WebServiceHelper {
 	 public String processMultipart(MultipartFile  mpf) {
 			String id = UUID.randomUUID().toString();
 			
+			logger_c.debug("Inside processMultipart");
+			
 			boolean isProcessed = false;
 			boolean useS3 = true;
 			String message = null;
@@ -196,11 +198,12 @@ public class WebServiceHelper {
 				
 				
 				
+				logger_c.debug("Inside processMultipart try useS3 "+useS3);
 				
 				
-				File convFile = new File("E:/Goodies/images/VIN.jpg");
 				
 				if(useS3){
+					logger_c.debug("Inside processMultipart useS3 "+useS3);
 					File convFile1 = new File(mpf.getOriginalFilename());
 					
 					
@@ -212,6 +215,7 @@ public class WebServiceHelper {
 					AWSS3Helper.putFileInS3(convFile1);
 				}else{
 				
+					File convFile = new File("E:/Goodies/images/VIN.jpg");
 				    convFile.createNewFile(); 
 				    FileOutputStream fos = new FileOutputStream(convFile); 
 				   
@@ -232,9 +236,12 @@ public class WebServiceHelper {
 				message = e.getMessage();
 			}
 			if (isProcessed) {
+				logger_c.debug("existing processMultipart id "+id);
 				return id;
 			}
 
+			logger_c.debug("existing processMultipart message "+message);
+			
 			return "Failed to process attachments. Reason : " + message;
 		}
 }
