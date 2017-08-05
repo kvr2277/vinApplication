@@ -203,7 +203,9 @@ public class WebServiceHelper {
 				
 				if(useS3){
 					logger_c.info("Inside processMultipart useS3 "+useS3);
-					File convFile1 = new File(mpf.getOriginalFilename());
+					String directory = System.getProperty("Directory");
+					logger_c.info("Inside processMultipart Directory "+directory);
+					File convFile1 = new File(directory, mpf.getOriginalFilename());
 					
 					logger_c.info("Inside processMultipart convFile1 "+convFile1);
 					convFile1.createNewFile(); 
