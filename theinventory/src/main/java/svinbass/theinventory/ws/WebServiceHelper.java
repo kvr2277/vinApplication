@@ -205,13 +205,16 @@ public class WebServiceHelper {
 					logger_c.info("Inside processMultipart useS3 "+useS3);
 					File convFile1 = new File(mpf.getOriginalFilename());
 					
-					
+					logger_c.info("Inside processMultipart convFile1 "+convFile1);
 					convFile1.createNewFile(); 
+					logger_c.info("Inside processMultipart createNewFile ");
 				    FileOutputStream fos1 = new FileOutputStream(convFile1); 
 				    fos1.write(mpf.getBytes());
+				    logger_c.info("Inside processMultipart write ");
 				    fos1.close(); 
-				    
+				    logger_c.info("Inside processMultipart fos1 ");
 					AWSS3Helper.putFileInS3(convFile1);
+					logger_c.info("Inside processMultipart putFileInS3 ");
 				}else{
 				
 					File convFile = new File("E:/Goodies/images/VIN.jpg");
@@ -235,11 +238,11 @@ public class WebServiceHelper {
 				message = e.getMessage();
 			}
 			if (isProcessed) {
-				logger_c.debug("existing processMultipart id "+id);
+				logger_c.info("existing processMultipart id "+id);
 				return id;
 			}
 
-			logger_c.debug("existing processMultipart message "+message);
+			logger_c.info("existing processMultipart message "+message);
 			
 			return "Failed to process attachments. Reason : " + message;
 		}

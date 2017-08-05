@@ -91,7 +91,7 @@ public class AWSS3Helper {
 						file)
 						.withCannedAcl(CannedAccessControlList.PublicRead));
 				
-				logger_c.debug("exiting putFileInS3");
+				logger_c.info("exiting putFileInS3");
 		
 	}
 	public static void createFolder(String bucketName, String folderName, AmazonS3 client) {

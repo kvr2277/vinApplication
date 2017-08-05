@@ -49,7 +49,7 @@ public class InventoryController {
 	public ModelAndView bookinventory(
 			@ModelAttribute("purchase") Purchase purchase, BindingResult result) {
 		
-		logger_c.debug("Inside /bookinventory bookinventory");
+		logger_c.info("Inside /bookinventory bookinventory");
 
 		Map<String, String> itemList = new LinkedHashMap<String, String>();
 		itemList.put("Rice", "Biyyam");
@@ -70,7 +70,7 @@ public class InventoryController {
 	public ModelAndView addContent(
 			@ModelAttribute("purchase") Purchase purchase, BindingResult result) {
 		
-		logger_c.debug("Inside /showContent addContent");
+		logger_c.info("Inside /showContent addContent");
 		
 		Vendor vend = purchase.getVendor();
 		vend.setVendorTan("AVMP0001");
