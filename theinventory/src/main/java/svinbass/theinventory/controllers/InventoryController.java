@@ -202,11 +202,14 @@ public class InventoryController {
 	String uploadToService(MultipartHttpServletRequest request,
 			HttpServletResponse response) {
 
-		logger_c.debug("Inside /uploadToWS uploadToService");
+		logger_c.info("Inside /uploadToWS uploadToService1");
 		
 		String reslt = "File Upload to Service Failed";
 
+		logger_c.info("Inside /uploadToWS uploadToService1 reslt "+reslt);
+		
 		if (request instanceof MultipartHttpServletRequest) {
+			logger_c.info("inside MultipartHttpServletRequest ");
 
 			Iterator<String> itr = ((MultipartHttpServletRequest) request)
 					.getFileNames();
@@ -217,6 +220,7 @@ public class InventoryController {
 			reslt = wsHelper.processMultipart(mpf);
 		}
 
+		logger_c.info("Inside /uploadToWS reslt "+reslt);
 		return reslt;
 	}
 }

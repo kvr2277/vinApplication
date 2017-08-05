@@ -13,7 +13,6 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.multipart.MultipartFile;
 
-import svinbass.theinventory.controllers.InventoryController;
 import svinbass.theinventory.model.Business;
 import svinbass.theinventory.util.AWSS3Helper;
 
@@ -187,9 +186,9 @@ public class WebServiceHelper {
 	    }
 	 
 	 public String processMultipart(MultipartFile  mpf) {
+		 	
+		 logger_c.info("inside processMultipart ");
 			String id = UUID.randomUUID().toString();
-			
-			logger_c.debug("Inside processMultipart");
 			
 			boolean isProcessed = false;
 			boolean useS3 = true;
@@ -198,12 +197,12 @@ public class WebServiceHelper {
 				
 				
 				
-				logger_c.debug("Inside processMultipart try useS3 "+useS3);
+				logger_c.info("Inside processMultipart try useS3 "+useS3);
 				
 				
 				
 				if(useS3){
-					logger_c.debug("Inside processMultipart useS3 "+useS3);
+					logger_c.info("Inside processMultipart useS3 "+useS3);
 					File convFile1 = new File(mpf.getOriginalFilename());
 					
 					

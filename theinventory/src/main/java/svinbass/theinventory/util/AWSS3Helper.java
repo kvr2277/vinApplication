@@ -29,7 +29,7 @@ public class AWSS3Helper {
 		// credentials object identifying user for authentication
 		// user must have AWSConnector and AmazonS3FullAccess for 
 		// this example to work
-		AWSCredentials credentials = new BasicAWSCredentials("AKIAIXBR5WHVAA4SQACQ", "oIkeMi6IwDF4h0eyOVOL8rZjN9MjdbNfrM6B30d4");
+		AWSCredentials credentials = new BasicAWSCredentials(System.getProperty("AWS_ACCESS_KEY_ID"), System.getProperty("AWS_SECRET_ACCESS_KEY"));
 		
 		// create a client connection based on credentials
 		AmazonS3 s3client = new AmazonS3Client(credentials);
@@ -61,7 +61,7 @@ public class AWSS3Helper {
 	
 	public static void putFileInS3(File file)	{
 		
-		logger_c.debug("Inside putFileInS3");
+		logger_c.info("Inside putFileInS3");
 		// credentials object identifying user for authentication
 				// user must have AWSConnector and AmazonS3FullAccess for 
 				// this example to work
