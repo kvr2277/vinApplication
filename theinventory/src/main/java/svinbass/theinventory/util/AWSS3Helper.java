@@ -67,8 +67,8 @@ public class AWSS3Helper {
 				// this example to work
 				AWSCredentials credentials = new BasicAWSCredentials(System.getProperty("AWS_ACCESS_KEY_ID"), System.getProperty("AWS_SECRET_ACCESS_KEY"));
 				
-				logger_c.info(" id " + System.getProperty("AWS_ACCESS_KEY_ID"));
-				logger_c.info(" ky " + System.getProperty("AWS_SECRET_ACCESS_KEY"));
+				logger_c.info(" id " + System.getProperty("aws_access_key_id"));
+				logger_c.info(" ky " + System.getProperty("aws_secret_access_key"));
 				// create a client connection based on credentials
 				AmazonS3 s3client = new AmazonS3Client(credentials);
 				
