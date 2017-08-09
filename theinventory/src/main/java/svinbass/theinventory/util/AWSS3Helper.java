@@ -2,8 +2,12 @@ package svinbass.theinventory.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
@@ -65,10 +69,23 @@ public class AWSS3Helper {
 		// credentials object identifying user for authentication
 				// user must have AWSConnector and AmazonS3FullAccess for 
 				// this example to work
-				AWSCredentials credentials = new BasicAWSCredentials(System.getProperty("AWS_ACCESS_KEY_ID"), System.getProperty("AWS_SECRET_ACCESS_KEY"));
+				final Properties props = new Properties();
+				try {
+					props.load(new FileInputStream("/var/www/html/app.properties"));
+				} catch (FileNotFoundException e) {
+					logger_c.info("FileNotFoundException putFileInS3", e);
+					
+				} catch (IOException e) {
+					logger_c.info("IOException putFileInS3", e);
+				}
 				
-				logger_c.info(" id " + System.getProperty("aws_access_key_id"));
-				logger_c.info(" ky " + System.getProperty("aws_secret_access_key"));
+				String id = props.getProperty("aws.id");
+				String key = props.getProperty("aws.key");
+		
+				AWSCredentials credentials = new BasicAWSCredentials(id, key);
+				
+				logger_c.info(" id " + id);
+				logger_c.info(" ky " + key);
 				// create a client connection based on credentials
 				AmazonS3 s3client = new AmazonS3Client(credentials);
 				

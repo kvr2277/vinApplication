@@ -1,8 +1,10 @@
 package svinbass.theinventory.ws;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Properties;
 import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
@@ -206,7 +208,10 @@ public class WebServiceHelper {
 					String directory = System.getProperty("folder");
 					logger_c.info("Inside processMultipart folder "+directory);
 					
-					String directory1 = System.getenv("folder1");
+					final Properties props = new Properties();
+					props.load(new FileInputStream("/var/www/html/app.properties"));
+					
+					String directory1 = props.getProperty("temp.directory");
 					logger_c.info("Inside processMultipart folder1 "+directory1);
 					
 					File convFile1 = new File(directory, mpf.getOriginalFilename());
