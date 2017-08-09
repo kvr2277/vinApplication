@@ -205,8 +205,6 @@ public class WebServiceHelper {
 				
 				if(useS3){
 					logger_c.info("Inside processMultipart useS3 "+useS3);
-					String directory = System.getProperty("folder");
-					logger_c.info("Inside processMultipart folder "+directory);
 					
 					final Properties props = new Properties();
 					props.load(new FileInputStream("/var/www/html/app.properties"));
@@ -214,7 +212,7 @@ public class WebServiceHelper {
 					String directory1 = props.getProperty("temp.directory");
 					logger_c.info("Inside processMultipart folder1 "+directory1);
 					
-					File convFile1 = new File(directory, mpf.getOriginalFilename());
+					File convFile1 = new File(directory1, mpf.getOriginalFilename());
 					
 					logger_c.info("Inside processMultipart convFile1 "+convFile1);
 					convFile1.createNewFile(); 
@@ -246,14 +244,15 @@ public class WebServiceHelper {
 				isProcessed = true;
 
 			} catch (Exception e) {
+				logger_c.info("Exception ",e);
 				message = e.getMessage();
 			}
 			if (isProcessed) {
-				logger_c.info("existing processMultipart id "+id);
+				logger_c.info("exiting processMultipart id "+id);
 				return id;
 			}
 
-			logger_c.info("existing processMultipart message "+message);
+			logger_c.info("exiting processMultipart message "+message);
 			
 			return "Failed to process attachments. Reason : " + message;
 		}
