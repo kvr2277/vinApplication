@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import svinbass.theinventory.aws.AWSSQSHelper;
 import svinbass.theinventory.logic.BusinessLogic;
 import svinbass.theinventory.model.Item;
 import svinbass.theinventory.model.Purchase;
@@ -203,6 +204,10 @@ public class InventoryController {
 			HttpServletResponse response) {
 
 		logger_c.info("Inside /uploadToWS uploadToService1");
+		
+		AWSSQSHelper.createQueueAndSendMessageToSQS("uploadToService createQueueAndSendMessageToSQS");
+		AWSSQSHelper.sendMessageToSQS("uploadToService sendMessageToSQS");
+		AWSSQSHelper.receiveMessagesFromSQS();
 		
 		String reslt = "File Upload to Service Failed";
 

@@ -14,8 +14,11 @@ package svinbass.theinventory.aws;
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+
+import org.apache.log4j.Logger;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
@@ -24,7 +27,9 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
+import com.amazonaws.services.sqs.model.AmazonSQSException;
 import com.amazonaws.services.sqs.model.CreateQueueRequest;
+import com.amazonaws.services.sqs.model.CreateQueueResult;
 import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.DeleteQueueRequest;
 import com.amazonaws.services.sqs.model.Message;
@@ -47,6 +52,10 @@ import com.amazonaws.services.sqs.model.SendMessageRequest;
  * keep the credentials file in your source directory.
  */
 public class AWSSQSHelper {
+	
+	 private static final String QUEUE_NAME = "vikiQueue" ;
+	 
+	 private static final Logger logger_c = Logger.getLogger(AWSSQSHelper.class);
 
     public static void main(String[] args) throws Exception {
 
@@ -131,5 +140,71 @@ public class AWSSQSHelper {
                     "being able to access the network.");
             System.out.println("Error Message: " + ace.getMessage());
         }
+    }
+    
+    
+    
+    public static void createQueueAndSendMessageToSQS(String message){
+    	final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
+
+    	logger_c.info("createQueueAndSendMessageToSQS sqs fetched");
+        try {
+            CreateQueueResult create_result = sqs.createQueue(QUEUE_NAME);
+        	logger_c.info("createQueueAndSendMessageToSQS create_result");
+        } catch (AmazonSQSException e) {
+            if (!e.getErrorCode().equals("QueueAlreadyExists")) {
+                throw e;
+            }
+        }
+        
+        String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
+        logger_c.info("createQueueAndSendMessageToSQS queueUrl"+queueUrl);
+        
+        SendMessageRequest send_msg_request = new SendMessageRequest()
+        .withQueueUrl(queueUrl)
+        .withMessageBody(message)
+        .withDelaySeconds(5);
+    	sqs.sendMessage(send_msg_request);
+    	
+    	logger_c.info("createQueueAndSendMessageToSQS send_msg_request "+message);
+    }
+    
+    
+    public static void sendMessageToSQS(String message){
+    	final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
+    	logger_c.info("sendMessageToSQS sqs");
+    	String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
+    	logger_c.info("sendMessageToSQS queueUrl "+queueUrl);
+    	
+    	SendMessageRequest send_msg_request = new SendMessageRequest()
+        .withQueueUrl(queueUrl)
+        .withMessageBody(message)
+        .withDelaySeconds(5);
+    	sqs.sendMessage(send_msg_request);
+    	logger_c.info("sendMessageToSQS sendMessageToSQS "+message);
+    }
+    
+    public static List<String> receiveMessagesFromSQS(){
+    	final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
+    	logger_c.info("receiveMessagesFromSQS sqs");
+    	String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
+    	logger_c.info("receiveMessagesFromSQS queueUrl "+queueUrl);
+    	 List<Message> messages = sqs.receiveMessage(queueUrl).getMessages();
+    	 logger_c.info("receiveMessagesFromSQS messages ");
+         // delete messages from the queue
+         for (Message m : messages) {
+             sqs.deleteMessage(queueUrl, m.getReceiptHandle());
+             logger_c.info("receiveMessagesFromSQS deleteMessage ");
+         }
+         
+         List<String> messageStrList = new ArrayList<String>();
+         
+         for (Message m : messages) {
+        	 messageStrList.add(m.getBody());
+        	 logger_c.info("receiveMessagesFromSQS message body "+m.getBody());
+         }
+         
+         logger_c.info("receiveMessagesFromSQS returning");
+         return messageStrList;
     }
 }

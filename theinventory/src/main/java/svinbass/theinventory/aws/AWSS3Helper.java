@@ -26,7 +26,7 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 public class AWSS3Helper {
 	
 	private static final String SUFFIX = "/";
-	private static final Logger logger_c = Logger.getLogger(WebServiceHelper.class);
+	private static final Logger logger_c = Logger.getLogger(AWSS3Helper.class);
 	
 	
 	public static void main(String[] args) {
