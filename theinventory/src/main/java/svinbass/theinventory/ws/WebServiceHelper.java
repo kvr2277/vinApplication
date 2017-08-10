@@ -15,8 +15,8 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.multipart.MultipartFile;
 
+import svinbass.theinventory.aws.AWSS3Helper;
 import svinbass.theinventory.model.Business;
-import svinbass.theinventory.util.AWSS3Helper;
 
 import com.model.Address;
 import com.soap.vendor.VendorAddressService;

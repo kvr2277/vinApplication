@@ -1,4 +1,4 @@
-package svinbass.theinventory.util;
+package svinbass.theinventory.aws;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
