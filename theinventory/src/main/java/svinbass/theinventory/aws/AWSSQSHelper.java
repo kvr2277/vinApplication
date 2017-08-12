@@ -40,172 +40,184 @@ import com.amazonaws.services.sqs.model.SendMessageRequest;
  * This sample demonstrates how to make basic requests to Amazon SQS using the
  * AWS SDK for Java.
  *
- * Prerequisites: You must have a valid Amazon Web Services developer account, 
- * and be signed up to use Amazon SQS. For more information about Amazon SQS, 
+ * Prerequisites: You must have a valid Amazon Web Services developer account,
+ * and be signed up to use Amazon SQS. For more information about Amazon SQS,
  * see http://aws.amazon.com/sqs
  * 
  * Fill in your AWS access credentials in the provided credentials file
  * template, and be sure to move the file to the default location
  * (~/.aws/credentials) where the sample code loads the credentials from.
  * 
- * IMPORTANT: To avoid accidental leakage of your credentials, DO NOT 
- * keep the credentials file in your source directory.
+ * IMPORTANT: To avoid accidental leakage of your credentials, DO NOT keep the
+ * credentials file in your source directory.
  */
 public class AWSSQSHelper {
-	
-	 private static final String QUEUE_NAME = "vikiQueue" ;
-	 
-	 private static final Logger logger_c = Logger.getLogger(AWSSQSHelper.class);
 
-    public static void main(String[] args) throws Exception {
+	private static final String QUEUE_NAME = "vikiQueue";
 
-        /*
-         * The ProfileCredentialsProvider returns your [default]
-         * credential profile by reading from the credentials file located at
-         * (~/.aws/credentials).
-         */
-        AWSCredentials credentials = null;
-        try {
-            credentials = new ProfileCredentialsProvider().getCredentials();
-        } catch (Exception e) {
-            throw new AmazonClientException(
-                    "Cannot load the credentials from the credential profiles file. " +
-                    "Please make sure that your credentials file is at the correct " +
-                    "location (~/.aws/credentials), and is in valid format.",
-                    e);
-        }
+	private static final Logger logger_c = Logger.getLogger(AWSSQSHelper.class);
 
-        AmazonSQS sqs = AmazonSQSClientBuilder.standard()
-				.withRegion(Regions.US_EAST_1)
-				.build();
+	public static void main(String[] args) throws Exception {
 
-        System.out.println("===========================================");
-        System.out.println("Getting Started with Amazon SQS");
-        System.out.println("===========================================\n");
+		/*
+		 * The ProfileCredentialsProvider returns your [default] credential
+		 * profile by reading from the credentials file located at
+		 * (~/.aws/credentials).
+		 */
+		AWSCredentials credentials = null;
+		try {
+			credentials = new ProfileCredentialsProvider().getCredentials();
+		} catch (Exception e) {
+			throw new AmazonClientException(
+					"Cannot load the credentials from the credential profiles file. "
+							+ "Please make sure that your credentials file is at the correct "
+							+ "location (~/.aws/credentials), and is in valid format.",
+					e);
+		}
 
-        try {
-            // Create a queue
-            System.out.println("Creating a new SQS queue called MyQueue.\n");
-            CreateQueueRequest createQueueRequest = new CreateQueueRequest("MyQueue");
-            String myQueueUrl = sqs.createQueue(createQueueRequest).getQueueUrl();
+		AmazonSQS sqs = AmazonSQSClientBuilder.standard()
+				.withRegion(Regions.US_EAST_1).build();
 
-            // List queues
-            System.out.println("Listing all queues in your account.\n");
-            for (String queueUrl : sqs.listQueues().getQueueUrls()) {
-                System.out.println("  QueueUrl: " + queueUrl);
-            }
-            System.out.println();
+		System.out.println("===========================================");
+		System.out.println("Getting Started with Amazon SQS");
+		System.out.println("===========================================\n");
 
-            // Send a message
-            System.out.println("Sending a message to MyQueue.\n");
-            sqs.sendMessage(new SendMessageRequest(myQueueUrl, "This is my message text."));
+		try {
+			// Create a queue
+			System.out.println("Creating a new SQS queue called MyQueue.\n");
+			CreateQueueRequest createQueueRequest = new CreateQueueRequest(
+					"MyQueue");
+			String myQueueUrl = sqs.createQueue(createQueueRequest)
+					.getQueueUrl();
 
-            // Receive messages
-            System.out.println("Receiving messages from MyQueue.\n");
-            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(myQueueUrl);
-            List<Message> messages = sqs.receiveMessage(receiveMessageRequest).getMessages();
-            for (Message message : messages) {
-                System.out.println("  Message");
-                System.out.println("    MessageId:     " + message.getMessageId());
-                System.out.println("    ReceiptHandle: " + message.getReceiptHandle());
-                System.out.println("    MD5OfBody:     " + message.getMD5OfBody());
-                System.out.println("    Body:          " + message.getBody());
-                for (Entry<String, String> entry : message.getAttributes().entrySet()) {
-                    System.out.println("  Attribute");
-                    System.out.println("    Name:  " + entry.getKey());
-                    System.out.println("    Value: " + entry.getValue());
-                }
-            }
-            System.out.println();
+			// List queues
+			System.out.println("Listing all queues in your account.\n");
+			for (String queueUrl : sqs.listQueues().getQueueUrls()) {
+				System.out.println("  QueueUrl: " + queueUrl);
+			}
+			System.out.println();
 
-            // Delete a message
-            System.out.println("Deleting a message.\n");
-            String messageReceiptHandle = messages.get(0).getReceiptHandle();
-            sqs.deleteMessage(new DeleteMessageRequest(myQueueUrl, messageReceiptHandle));
+			// Send a message
+			System.out.println("Sending a message to MyQueue.\n");
+			sqs.sendMessage(new SendMessageRequest(myQueueUrl,
+					"This is my message text."));
 
-            // Delete a queue
-            System.out.println("Deleting the test queue.\n");
-            sqs.deleteQueue(new DeleteQueueRequest(myQueueUrl));
-        } catch (AmazonServiceException ase) {
-            System.out.println("Caught an AmazonServiceException, which means your request made it " +
-                    "to Amazon SQS, but was rejected with an error response for some reason.");
-            System.out.println("Error Message:    " + ase.getMessage());
-            System.out.println("HTTP Status Code: " + ase.getStatusCode());
-            System.out.println("AWS Error Code:   " + ase.getErrorCode());
-            System.out.println("Error Type:       " + ase.getErrorType());
-            System.out.println("Request ID:       " + ase.getRequestId());
-        } catch (AmazonClientException ace) {
-            System.out.println("Caught an AmazonClientException, which means the client encountered " +
-                    "a serious internal problem while trying to communicate with SQS, such as not " +
-                    "being able to access the network.");
-            System.out.println("Error Message: " + ace.getMessage());
-        }
-    }
-    
-    
-    
-    public static void createQueueAndSendMessageToSQS(String message){
-    	final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
+			// Receive messages
+			System.out.println("Receiving messages from MyQueue.\n");
+			ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(
+					myQueueUrl);
+			List<Message> messages = sqs.receiveMessage(receiveMessageRequest)
+					.getMessages();
+			for (Message message : messages) {
+				System.out.println("  Message");
+				System.out.println("    MessageId:     "
+						+ message.getMessageId());
+				System.out.println("    ReceiptHandle: "
+						+ message.getReceiptHandle());
+				System.out.println("    MD5OfBody:     "
+						+ message.getMD5OfBody());
+				System.out.println("    Body:          " + message.getBody());
+				for (Entry<String, String> entry : message.getAttributes()
+						.entrySet()) {
+					System.out.println("  Attribute");
+					System.out.println("    Name:  " + entry.getKey());
+					System.out.println("    Value: " + entry.getValue());
+				}
+			}
+			System.out.println();
 
-    	logger_c.info("createQueueAndSendMessageToSQS sqs fetched");
-        try {
-            CreateQueueResult create_result = sqs.createQueue(QUEUE_NAME);
-        	logger_c.info("createQueueAndSendMessageToSQS create_result");
-        } catch (AmazonSQSException e) {
-            if (!e.getErrorCode().equals("QueueAlreadyExists")) {
-                throw e;
-            }
-        }
-        
-        String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
-        logger_c.info("createQueueAndSendMessageToSQS queueUrl"+queueUrl);
-        
-        SendMessageRequest send_msg_request = new SendMessageRequest()
-        .withQueueUrl(queueUrl)
-        .withMessageBody(message)
-        .withDelaySeconds(5);
-    	sqs.sendMessage(send_msg_request);
-    	
-    	logger_c.info("createQueueAndSendMessageToSQS send_msg_request "+message);
-    }
-    
-    
-    public static void sendMessageToSQS(String message){
-    	final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
-    	logger_c.info("sendMessageToSQS sqs");
-    	String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
-    	logger_c.info("sendMessageToSQS queueUrl "+queueUrl);
-    	
-    	SendMessageRequest send_msg_request = new SendMessageRequest()
-        .withQueueUrl(queueUrl)
-        .withMessageBody(message)
-        .withDelaySeconds(5);
-    	sqs.sendMessage(send_msg_request);
-    	logger_c.info("sendMessageToSQS sendMessageToSQS "+message);
-    }
-    
-    public static List<String> receiveMessagesFromSQS(){
-    	final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
-    	logger_c.info("receiveMessagesFromSQS sqs");
-    	String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
-    	logger_c.info("receiveMessagesFromSQS queueUrl "+queueUrl);
-    	 List<Message> messages = sqs.receiveMessage(queueUrl).getMessages();
-    	 logger_c.info("receiveMessagesFromSQS messages size "+messages.size());
-         // delete messages from the queue
-         for (Message m : messages) {
-        	 logger_c.info("receiveMessagesFromSQS before deletion  "+m.getBody());
-             sqs.deleteMessage(queueUrl, m.getReceiptHandle());
-             logger_c.info("receiveMessagesFromSQS deleteMessage ");
-         }
-         
-         List<String> messageStrList = new ArrayList<String>();
-         
-         for (Message m : messages) {
-        	 messageStrList.add(m.getBody());
-        	 logger_c.info("receiveMessagesFromSQS message body "+m.getBody());
-         }
-         
-         logger_c.info("receiveMessagesFromSQS returning");
-         return messageStrList;
-    }
+			// Delete a message
+			System.out.println("Deleting a message.\n");
+			String messageReceiptHandle = messages.get(0).getReceiptHandle();
+			sqs.deleteMessage(new DeleteMessageRequest(myQueueUrl,
+					messageReceiptHandle));
+
+			// Delete a queue
+			System.out.println("Deleting the test queue.\n");
+			sqs.deleteQueue(new DeleteQueueRequest(myQueueUrl));
+		} catch (AmazonServiceException ase) {
+			System.out
+					.println("Caught an AmazonServiceException, which means your request made it "
+							+ "to Amazon SQS, but was rejected with an error response for some reason.");
+			System.out.println("Error Message:    " + ase.getMessage());
+			System.out.println("HTTP Status Code: " + ase.getStatusCode());
+			System.out.println("AWS Error Code:   " + ase.getErrorCode());
+			System.out.println("Error Type:       " + ase.getErrorType());
+			System.out.println("Request ID:       " + ase.getRequestId());
+		} catch (AmazonClientException ace) {
+			System.out
+					.println("Caught an AmazonClientException, which means the client encountered "
+							+ "a serious internal problem while trying to communicate with SQS, such as not "
+							+ "being able to access the network.");
+			System.out.println("Error Message: " + ace.getMessage());
+		}
+	}
+
+	public static void createQueueAndSendMessageToSQS(String message) {
+		final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
+
+		logger_c.info("createQueueAndSendMessageToSQS sqs fetched");
+		try {
+			CreateQueueResult create_result = sqs.createQueue(QUEUE_NAME);
+			logger_c.info("createQueueAndSendMessageToSQS create_result");
+		} catch (AmazonSQSException e) {
+			if (!e.getErrorCode().equals("QueueAlreadyExists")) {
+				throw e;
+			}
+		}
+
+		String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
+		logger_c.info("createQueueAndSendMessageToSQS queueUrl" + queueUrl);
+
+		SendMessageRequest send_msg_request = new SendMessageRequest()
+				.withQueueUrl(queueUrl).withMessageBody(message)
+				.withDelaySeconds(5);
+		sqs.sendMessage(send_msg_request);
+
+		logger_c.info("createQueueAndSendMessageToSQS send_msg_request "
+				+ message);
+	}
+
+	public static void sendMessageToSQS(String message) {
+		final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
+		logger_c.info("sendMessageToSQS sqs");
+		String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
+		logger_c.info("sendMessageToSQS queueUrl " + queueUrl);
+
+		SendMessageRequest send_msg_request = new SendMessageRequest()
+				.withQueueUrl(queueUrl).withMessageBody(message)
+				.withDelaySeconds(5);
+		sqs.sendMessage(send_msg_request);
+		logger_c.info("sendMessageToSQS sendMessageToSQS " + message);
+	}
+
+	public static List<String> receiveMessagesFromSQS() {
+		final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
+		logger_c.info("receiveMessagesFromSQS sqs");
+		String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
+		logger_c.info("receiveMessagesFromSQS queueUrl " + queueUrl);
+		ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueUrl).withAttributeNames("All");
+		
+		receiveMessageRequest.setMaxNumberOfMessages(10);
+
+		List<Message> messages = sqs.receiveMessage(receiveMessageRequest).getMessages();
+		logger_c.info("receiveMessagesFromSQS messages size " + messages.size());
+		// delete messages from the queue
+		for (Message m : messages) {
+			logger_c.info("receiveMessagesFromSQS before deletion  "
+					+ m.getBody());
+			sqs.deleteMessage(queueUrl, m.getReceiptHandle());
+			logger_c.info("receiveMessagesFromSQS deleteMessage ");
+		}
+
+		List<String> messageStrList = new ArrayList<String>();
+
+		for (Message m : messages) {
+			messageStrList.add(m.getBody());
+			logger_c.info("receiveMessagesFromSQS message body " + m.getBody());
+		}
+
+		logger_c.info("receiveMessagesFromSQS returning");
+		return messageStrList;
+	}
 }
