@@ -1,0 +1,9 @@
+in Ec2
+> mkdir /var/www/html
+>nano app.properties
+temp.directory=var/www/html
+topic.arn=//arn of sns topic
+topic.email=//email
+
+
+> find /var/www -type d -exec chmod 777 {} \;

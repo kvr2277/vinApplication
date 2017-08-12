@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import svinbass.theinventory.aws.AWSSNSHelper;
 import svinbass.theinventory.aws.AWSSQSHelper;
 import svinbass.theinventory.logic.BusinessLogic;
 import svinbass.theinventory.model.Item;
@@ -42,7 +43,7 @@ public class InventoryController {
 	
 
 	
-	private static final Logger logger_c = Logger.getLogger(InventoryController.class);
+	private static final Logger logger = Logger.getLogger(InventoryController.class);
 
 	WebServiceHelper wsHelper = new WebServiceHelper();
 	BusinessLogic bs = new BusinessLogic();
@@ -51,7 +52,7 @@ public class InventoryController {
 	public ModelAndView bookinventory(
 			@ModelAttribute("purchase") Purchase purchase, BindingResult result) {
 		
-		logger_c.info("Inside /bookinventory bookinventory");
+		logger.info("Inside /bookinventory bookinventory");
 
 		Map<String, String> itemList = new LinkedHashMap<String, String>();
 		itemList.put("Rice", "Biyyam");
@@ -72,7 +73,7 @@ public class InventoryController {
 	public ModelAndView addContent(
 			@ModelAttribute("purchase") Purchase purchase, BindingResult result) {
 		
-		logger_c.info("Inside /showContent addContent");
+		logger.info("Inside /showContent addContent");
 		
 		Vendor vend = purchase.getVendor();
 		vend.setVendorTan("AVMP0001");
@@ -145,7 +146,7 @@ public class InventoryController {
 			e.printStackTrace();
 		}
 
-		logger_c.info("Address JSON is : " + str);
+		logger.info("Address JSON is : " + str);
 		return str;
 	}
 
@@ -172,7 +173,7 @@ public class InventoryController {
 
 		String reslt = "File Upload Failed";
 		if (request instanceof MultipartHttpServletRequest) {
-			logger_c.info(" Inside Multipart");
+			logger.info(" Inside Multipart");
 
 			Iterator<String> itr = ((MultipartHttpServletRequest) request)
 					.getFileNames();
@@ -204,18 +205,20 @@ public class InventoryController {
 	String uploadToService(MultipartHttpServletRequest request,
 			HttpServletResponse response) {
 
-		logger_c.info("Inside /uploadToWS uploadToService1");
+		logger.info("Inside uploadToService");
 		
+		String sqsMsg = "My text published to SQS Queue "+new Date();
 		//AWSSQSHelper.createQueueAndSendMessageToSQS("uploadToService createQueueAndSendMessageToSQS"+new Date());
-		//AWSSQSHelper.sendMessageToSQS("uploadToService sendMessageToSQS"+new Date());
+		AWSSQSHelper.sendMessageToSQS(sqsMsg);
 		AWSSQSHelper.receiveMessagesFromSQS();
 		
+		String snsMsg = "My text published to SNS topic with email endpoint "+new Date();
+		AWSSNSHelper.publishToSNSTopic(snsMsg);
+		
 		String reslt = "File Upload to Service Failed";
-
-		logger_c.info("Inside /uploadToWS uploadToService1 reslt "+reslt);
 		
 		if (request instanceof MultipartHttpServletRequest) {
-			logger_c.info("inside MultipartHttpServletRequest ");
+			logger.info("inside MultipartHttpServletRequest ");
 
 			Iterator<String> itr = ((MultipartHttpServletRequest) request)
 					.getFileNames();
@@ -226,7 +229,7 @@ public class InventoryController {
 			reslt = wsHelper.processMultipart(mpf);
 		}
 
-		logger_c.info("Inside /uploadToWS reslt "+reslt);
+		logger.info("Exiting uploadToService result "+reslt);
 		return reslt;
 	}
 }
