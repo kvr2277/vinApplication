@@ -207,7 +207,7 @@ public class InventoryController {
 		logger_c.info("Inside /uploadToWS uploadToService1");
 		
 		//AWSSQSHelper.createQueueAndSendMessageToSQS("uploadToService createQueueAndSendMessageToSQS"+new Date());
-		AWSSQSHelper.sendMessageToSQS("uploadToService sendMessageToSQS"+new Date());
+		//AWSSQSHelper.sendMessageToSQS("uploadToService sendMessageToSQS"+new Date());
 		AWSSQSHelper.receiveMessagesFromSQS();
 		
 		String reslt = "File Upload to Service Failed";
