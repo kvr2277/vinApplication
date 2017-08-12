@@ -190,9 +190,10 @@ public class AWSSQSHelper {
     	String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
     	logger_c.info("receiveMessagesFromSQS queueUrl "+queueUrl);
     	 List<Message> messages = sqs.receiveMessage(queueUrl).getMessages();
-    	 logger_c.info("receiveMessagesFromSQS messages ");
+    	 logger_c.info("receiveMessagesFromSQS messages size "+messages.size());
          // delete messages from the queue
          for (Message m : messages) {
+        	 logger_c.info("receiveMessagesFromSQS before deletion  "+m.getBody());
              sqs.deleteMessage(queueUrl, m.getReceiptHandle());
              logger_c.info("receiveMessagesFromSQS deleteMessage ");
          }

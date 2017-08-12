@@ -13,8 +13,10 @@ import org.apache.log4j.Logger;
 
 import svinbass.theinventory.ws.WebServiceHelper;
 
+import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.Bucket;
@@ -66,28 +68,9 @@ public class AWSS3Helper {
 	public static void putFileInS3(File file)	{
 		
 		logger_c.info("Inside putFileInS3");
-		// credentials object identifying user for authentication
-				// user must have AWSConnector and AmazonS3FullAccess for 
-				// this example to work
-				final Properties props = new Properties();
-				try {
-					props.load(new FileInputStream("/var/www/html/app.properties"));
-				} catch (FileNotFoundException e) {
-					logger_c.info("FileNotFoundException putFileInS3", e);
-					
-				} catch (IOException e) {
-					logger_c.info("IOException putFileInS3", e);
-				}
-				
-				String id = props.getProperty("aws.id");
-				String key = props.getProperty("aws.key");
-		
-				AWSCredentials credentials = new BasicAWSCredentials(id, key);
-				
-				logger_c.info(" id " + id);
-				logger_c.info(" ky " + key);
-				// create a client connection based on credentials
-				AmazonS3 s3client = new AmazonS3Client(credentials);
+	
+				// location (~/.aws/credentials) using aws configure cli
+				AmazonS3 s3client = new AmazonS3Client(new ProfileCredentialsProvider());  
 				
 				// create bucket - name must be unique for all S3 users
 				String bucketName = "vinzone-example-bucket";
