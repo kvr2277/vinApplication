@@ -19,6 +19,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -70,7 +71,18 @@ public class AWSS3Helper {
 		logger_c.info("Inside putFileInS3");
 	
 				// location (~/.aws/credentials) using aws configure cli
-				AmazonS3 s3client = new AmazonS3Client(new ProfileCredentialsProvider());  
+				AWSCredentials credentials = null;
+		        try {
+		            credentials = new ProfileCredentialsProvider().getCredentials();
+		        } catch (Exception e) {
+		            throw new AmazonClientException(
+		                    "Cannot load the credentials from the credential profiles file. " +
+		                    "Please make sure that your credentials file is at the correct " +
+		                    "location (~/.aws/credentials), and is in valid format.",
+		                    e);
+		        }
+		        
+				AmazonS3 s3client = AmazonS3ClientBuilder.defaultClient(); 
 				
 				// create bucket - name must be unique for all S3 users
 				String bucketName = "vinzone-example-bucket";

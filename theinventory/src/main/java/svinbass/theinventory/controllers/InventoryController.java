@@ -2,6 +2,7 @@ package svinbass.theinventory.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -205,8 +206,8 @@ public class InventoryController {
 
 		logger_c.info("Inside /uploadToWS uploadToService1");
 		
-		AWSSQSHelper.createQueueAndSendMessageToSQS("uploadToService createQueueAndSendMessageToSQS");
-		AWSSQSHelper.sendMessageToSQS("uploadToService sendMessageToSQS");
+		AWSSQSHelper.createQueueAndSendMessageToSQS("uploadToService createQueueAndSendMessageToSQS"+new Date());
+		AWSSQSHelper.sendMessageToSQS("uploadToService sendMessageToSQS"+new Date());
 		AWSSQSHelper.receiveMessagesFromSQS();
 		
 		String reslt = "File Upload to Service Failed";
