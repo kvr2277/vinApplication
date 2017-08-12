@@ -155,8 +155,7 @@ public class AWSSQSHelper {
 
 	public static void createQueueAndSendMessageToSQS(String message) {
 		final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
-
-		logger_c.info("createQueueAndSendMessageToSQS sqs fetched");
+		
 		try {
 			CreateQueueResult create_result = sqs.createQueue(QUEUE_NAME);
 			logger_c.info("createQueueAndSendMessageToSQS create_result");
@@ -167,7 +166,6 @@ public class AWSSQSHelper {
 		}
 
 		String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
-		logger_c.info("createQueueAndSendMessageToSQS queueUrl" + queueUrl);
 
 		SendMessageRequest send_msg_request = new SendMessageRequest()
 				.withQueueUrl(queueUrl).withMessageBody(message)
@@ -180,28 +178,22 @@ public class AWSSQSHelper {
 
 	public static void sendMessageToSQS(String message) {
 		final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
-		logger_c.info("sendMessageToSQS sqs");
 		String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
-		logger_c.info("sendMessageToSQS queueUrl " + queueUrl);
-
 		SendMessageRequest send_msg_request = new SendMessageRequest()
 				.withQueueUrl(queueUrl).withMessageBody(message)
 				.withDelaySeconds(5);
 		sqs.sendMessage(send_msg_request);
-		logger_c.info("sendMessageToSQS sendMessageToSQS " + message);
 	}
 
 	public static List<String> receiveMessagesFromSQS() {
 		final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
-		logger_c.info("receiveMessagesFromSQS sqs");
-		String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();
-		logger_c.info("receiveMessagesFromSQS queueUrl " + queueUrl);
+		String queueUrl = sqs.getQueueUrl(QUEUE_NAME).getQueueUrl();;
 		ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(queueUrl).withAttributeNames("All");
 		
 		receiveMessageRequest.setMaxNumberOfMessages(10);
 
 		List<Message> messages = sqs.receiveMessage(receiveMessageRequest).getMessages();
-		logger_c.info("receiveMessagesFromSQS messages size " + messages.size());
+		logger_c.info("receiveMessagesFromSQS messages sizenew " + messages.size());
 		// delete messages from the queue
 		for (Message m : messages) {
 			logger_c.info("receiveMessagesFromSQS before deletion  "
