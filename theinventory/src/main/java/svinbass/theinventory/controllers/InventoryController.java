@@ -2,6 +2,7 @@ package svinbass.theinventory.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import svinbass.theinventory.aws.AWSSNSHelper;
+import svinbass.theinventory.aws.AWSSQSHelper;
 import svinbass.theinventory.logic.BusinessLogic;
 import svinbass.theinventory.model.Item;
 import svinbass.theinventory.model.Purchase;
@@ -38,16 +41,18 @@ import com.model.Vendor;
 		"/getAddress" })
 public class InventoryController {
 	
-	private static final Logger logger_c = Logger.getLogger(InventoryController.class);
+
+	
+	private static final Logger logger = Logger.getLogger(InventoryController.class);
 
 	WebServiceHelper wsHelper = new WebServiceHelper();
 	BusinessLogic bs = new BusinessLogic();
 
 	@RequestMapping("/bookinventory")
-	public ModelAndView showContacts(
+	public ModelAndView bookinventory(
 			@ModelAttribute("purchase") Purchase purchase, BindingResult result) {
 		
-		logger_c.debug("Inside /bookinventory showContacts");
+		logger.info("Inside /bookinventory bookinventory");
 
 		Map<String, String> itemList = new LinkedHashMap<String, String>();
 		itemList.put("Rice", "Biyyam");
@@ -68,7 +73,7 @@ public class InventoryController {
 	public ModelAndView addContent(
 			@ModelAttribute("purchase") Purchase purchase, BindingResult result) {
 		
-		logger_c.debug("Inside /showContent addContent");
+		logger.info("Inside /showContent addContent");
 		
 		Vendor vend = purchase.getVendor();
 		vend.setVendorTan("AVMP0001");
@@ -141,7 +146,7 @@ public class InventoryController {
 			e.printStackTrace();
 		}
 
-		System.out.println("Address JSON is : " + str);
+		logger.info("Address JSON is : " + str);
 		return str;
 	}
 
@@ -168,7 +173,7 @@ public class InventoryController {
 
 		String reslt = "File Upload Failed";
 		if (request instanceof MultipartHttpServletRequest) {
-			System.out.println(" Inside Multipart");
+			logger.info(" Inside Multipart");
 
 			Iterator<String> itr = ((MultipartHttpServletRequest) request)
 					.getFileNames();
@@ -200,9 +205,20 @@ public class InventoryController {
 	String uploadToService(MultipartHttpServletRequest request,
 			HttpServletResponse response) {
 
+		logger.info("Inside uploadToService");
+		
+		String sqsMsg = "My text published to SQS Queue "+new Date();
+		//AWSSQSHelper.createQueueAndSendMessageToSQS("uploadToService createQueueAndSendMessageToSQS"+new Date());
+		AWSSQSHelper.sendMessageToSQS(sqsMsg);
+		AWSSQSHelper.receiveMessagesFromSQS();
+		
+		String snsMsg = "My text published to SNS topic with email endpoint "+new Date();
+		AWSSNSHelper.publishToSNSTopic(snsMsg);
+		
 		String reslt = "File Upload to Service Failed";
-
+		
 		if (request instanceof MultipartHttpServletRequest) {
+			logger.info("inside MultipartHttpServletRequest ");
 
 			Iterator<String> itr = ((MultipartHttpServletRequest) request)
 					.getFileNames();
@@ -210,9 +226,10 @@ public class InventoryController {
 			MultipartFile mpf = ((MultipartHttpServletRequest) request)
 					.getFile(itr.next());
 
-			reslt = wsHelper.fileUploadClient(mpf);
+			reslt = wsHelper.processMultipart(mpf);
 		}
 
+		logger.info("Exiting uploadToService result "+reslt);
 		return reslt;
 	}
 }
